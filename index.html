@@ -1378,10 +1378,10 @@
 
 </div><!-- /form-wrap -->
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 // ── EmailJS Init ──────────────────────────────────────────────────────────
-emailjs.init('GsyKbJ191BAEB4Q3vcL-q');
+window.addEventListener('load', function() { emailjs.init('GsyKbJ191BAEB4Q3vcL-q'); });
 
 // ── State ──────────────────────────────────────────────────────────────────
 let currentSection = 0;
