@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competency & Licence Renewal – Legally Armed</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #4A4A4A;
+    --gold:   #7A7A7A;
+    --gold-lt:#A8A8A8;
+    --cream:  #F8F4EE;
+    --white:  #FFFFFF;
+    --grey50: #F5F3EF;
+    --grey100:#EAE6DF;
+    --grey300:#C8C0B0;
+    --grey500:#8A7F70;
+    --grey700:#4A4438;
+    --red:    #B04040;
+    --field-bg:#FDFCFA;
+    --field-border:#D4CCC0;
+    --field-focus:#7A7A7A;
+    --radius: 6px;
+    --shadow: 0 2px 12px rgba(26,26,46,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--grey700);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+  }
+  /* logo-mark replaced with img */
+  .header-text h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .header-text p {
+    font-size: 11px;
+    color: var(--gold-lt);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 3px;
+    text-align: center;
+  }
+  .gold-bar { height: 2px; background: linear-gradient(90deg, #888, #C0C0C0, #888); }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    background: var(--navy);
+    padding: 0 32px 16px;
+  }
+  .progress-inner { max-width: 900px; margin: 0 auto; }
+  .steps {
+    display: flex;
+    gap: 0;
+    counter-reset: step;
+  }
+  .step-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+  .step-item::before {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    z-index: 0;
+  }
+  .step-item:last-child::before { display: none; }
+  .step-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+  .step-item.active .step-dot {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--white);
+  }
+  .step-item.done .step-dot {
+    border-color: var(--gold-lt);
+    background: transparent;
+    color: var(--gold-lt);
+  }
+  .step-label {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-top: 6px;
+    text-align: center;
+  }
+  .step-item.active .step-label { color: var(--gold-lt); }
+
+  /* ── FORM CONTAINER ── */
+  .form-wrap { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+
+  /* ── SECTION PANEL ── */
+  .form-section {
+    display: none;
+    animation: fadeUp 0.4s ease;
+  }
+  .form-section.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background: var(--navy);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 32px;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .card-body { padding: 24px; }
+
+  /* ── FIELD STYLES ── */
+  .field-row {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field-row.cols-1 { grid-template-columns: 1fr; }
+  .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .field-row.cols-2-1 { grid-template-columns: 2fr 1fr; }
+  .field-row.cols-3-1 { grid-template-columns: 3fr 1fr; }
+  .field-row.cols-1-1-2 { grid-template-columns: 1fr 1fr 2fr; }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--grey500);
+  }
+  .field-group label .req { color: var(--gold); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--field-bg);
+    border: 1.5px solid var(--field-border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--grey700);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--field-focus);
+    box-shadow: 0 0 0 3px rgba(158,158,158,0.18);
+  }
+  input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(176,64,64,0.1); }
+  input.valid { border-color: #2D7A3A; box-shadow: 0 0 0 3px rgba(45,122,58,0.08); }
+  textarea { resize: vertical; min-height: 70px; }
+  select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A7F70' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+
+  /* ── RADIO / CHECKBOX GROUPS ── */
+  .radio-group, .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 2px;
+  }
+  .radio-btn, .check-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1.5px solid var(--field-border);
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--grey700);
+    background: var(--field-bg);
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .radio-btn input, .check-btn input { display: none; }
+  .radio-btn:hover, .check-btn:hover {
+    border-color: var(--gold-lt);
+    background: #F5F5F5;
+  }
+  .radio-btn.selected, .check-btn.selected {
+    border-color: var(--gold);
+    background: #F5F5F5;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .radio-btn.selected::before {
+    content: '✓';
+    font-size: 11px;
+    color: var(--gold);
+  }
+  .check-btn.selected::before {
+    content: '✓';
+    font-size: 11px;
+    color: var(--gold);
+  }
+
+  /* YES/NO */
+  .yn-group { display: flex; gap: 10px; }
+  .yn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--grey100);
+  }
+  .yn-row:last-child { border-bottom: none; }
+  .yn-question {
+    font-size: 13.5px;
+    color: var(--grey700);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .yn-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 18px;
+    border: 1.5px solid var(--field-border);
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--grey500);
+    background: var(--field-bg);
+    transition: all 0.2s;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .yn-group input { display: none; }
+  .yn-group label:hover { border-color: var(--gold-lt); }
+  .yn-group label.yes-sel { border-color: #2D7A3A; background: #F0FBF2; color: #2D7A3A; }
+  .yn-group label.no-sel  { border-color: var(--red); background: #FBF0F0; color: var(--red); }
+
+  /* ── CONDITIONAL REVEAL ── */
+  .conditional {
+    display: none;
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--grey50);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .conditional.show { display: block; animation: fadeUp 0.25s ease; }
+
+  /* ── TABLE (Licences) ── */
+  .lic-table { width: 100%; border-collapse: collapse; }
+  .lic-table th {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+  }
+  .lic-table td { padding: 4px 6px; border-bottom: 1px solid var(--grey100); }
+  .lic-table tr:nth-child(even) td { background: var(--grey50); }
+  .lic-table input { border-radius: 4px; padding: 7px 10px; font-size: 13px; }
+
+  /* ── SECTIONS INFO ── */
+  .sections-info {
+    margin-top: 20px;
+    border: 1px solid var(--grey100);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .sections-info table { width: 100%; border-collapse: collapse; }
+  .sections-info th {
+    background: var(--grey50);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--grey500);
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .sections-info td { padding: 7px 12px; font-size: 12.5px; border-top: 1px solid var(--grey100); }
+  .sections-info td:last-child { color: var(--gold); font-weight: 600; font-size: 12px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--grey100);
+    margin: 20px 0;
+  }
+  .sub-heading {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sub-heading::after { content: ''; flex: 1; height: 1px; background: var(--grey100); }
+
+  /* ── NAV BUTTONS ── */
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .btn {
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .btn-prev {
+    background: transparent;
+    border: 1.5px solid var(--grey300);
+    color: var(--grey500);
+  }
+  .btn-prev:hover { border-color: var(--grey500); color: var(--grey700); }
+  .btn-next {
+    background: var(--navy);
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(26,26,46,0.25);
+  }
+  .btn-next:hover { background: #2a2a4a; transform: translateY(-1px); }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(120,120,120,0.3);
+  }
+  .btn-gold:hover { background: #7a5c10; transform: translateY(-1px); }
+  .step-indicator { font-size: 12px; color: var(--grey500); }
+
+  /* ── SUBMIT PAGE ── */
+  .submit-section {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 36px;
+    text-align: center;
+  }
+  .submit-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .submit-section p { color: var(--grey500); font-size: 14px; margin-bottom: 28px; line-height: 1.7; }
+  .submit-options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .submit-card {
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
+    border: 1.5px solid var(--grey100);
+    border-radius: 10px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .submit-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(120,120,120,0.15); }
+  .submit-card .icon { font-size: 32px; margin-bottom: 12px; }
+  .submit-card h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .submit-card p { font-size: 12.5px; color: var(--grey500); margin-bottom: 16px; }
+
+  /* ── SUCCESS ── */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 48px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  .success-msg .checkmark { font-size: 56px; margin-bottom: 16px; }
+  .success-msg h2 { font-family: 'Cormorant Garamond', serif; font-size: 30px; color: var(--navy); margin-bottom: 10px; }
+  .success-msg p { color: var(--grey500); font-size: 14px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .field-row.cols-2,
+    .field-row.cols-3,
+    .field-row.cols-2-1,
+    .field-row.cols-3-1,
+    .field-row.cols-1-1-2 { grid-template-columns: 1fr; }
+    .yn-row { flex-direction: column; align-items: flex-start; }
+    .header-inner { padding: 14px 16px; }
+    .form-wrap { padding: 0 14px; }
+    .card-body { padding: 16px; }
+  }
+</style>
+
+</head>
+<body>
+
+<header class="site-header">
+  <div class="gold-bar"></div>
+  <div class="header-inner">
+    <img src="data:image/jpeg;base64,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" alt="Legally Armed" style="height:78px;width:78px;object-fit:contain;border-radius:4px;flex-shrink:0;">
+    <div class="header-text">
+      <h1>Competency &amp; Licence Renewal</h1>
+      <p>Application Checklist &nbsp;·&nbsp; Confidential</p>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-inner">
+      <div class="steps">
+        <div class="step-item active" onclick="goTo(0)"><div class="step-dot">1</div><div class="step-label">Applicant</div></div>
+        <div class="step-item" onclick="goTo(1)"><div class="step-dot">2</div><div class="step-label">Training</div></div>
+        <div class="step-item" onclick="goTo(2)"><div class="step-dot">3</div><div class="step-label">Criminal</div></div>
+        <div class="step-item" onclick="goTo(3)"><div class="step-dot">4</div><div class="step-label">Safe &amp; Clubs</div></div>
+        <div class="step-item" onclick="goTo(4)"><div class="step-dot">5</div><div class="step-label">Licences</div></div>
+        <div class="step-item" onclick="goTo(5)"><div class="step-dot">6</div><div class="step-label">Submit</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="form-wrap">
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: APPLICANT                                          -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section active" id="sec-0">
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div class="card-title">Particulars of Applicant</div>
+    </div>
+    <div class="card-body">
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Application Date <span class="req">*</span></label>
+          <input type="date" id="app_date" required>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>I.D. Type <span class="req">*</span></label>
+          <div class="radio-group" id="id_type">
+            <label class="radio-btn"><input type="radio" name="id_type" value="SA ID"> S.A. ID</label>
+            <label class="radio-btn"><input type="radio" name="id_type" value="Passport"> Passport</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>I.D. / Passport Number <span class="req">*</span></label>
+          <input type="text" id="id_number" placeholder="000000-0000-00-0" maxlength="16" oninput="formatSAIDField(this,'id_type')" autocomplete="off" required>
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Citizenship <span class="req">*</span></label>
+          <div class="radio-group" id="citizenship">
+            <label class="radio-btn"><input type="radio" name="citizenship" value="RSA"> RSA</label>
+            <label class="radio-btn"><input type="radio" name="citizenship" value="Non S.A."> Non S.A.</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Full Names &amp; Surname <span class="req">*</span></label>
+          <input type="text" id="full_names" placeholder="As per ID document" required>
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Nickname</label>
+          <input type="text" id="nickname" placeholder="Optional">
+        </div>
+        <div class="field-group">
+          <label>Age</label>
+          <input type="text" id="age" placeholder="Auto-calculated from ID" readonly style="background:#F0F0F0;color:#666;cursor:default;" title="Automatically calculated from SA ID number">
+        </div>
+      </div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Marital Status <span class="req">*</span></label>
+          <div class="radio-group" id="marital_status">
+            <label class="radio-btn"><input type="radio" name="marital" value="Single" onclick="toggleOtherField('marital_other_field',this)"> Single</label>
+            <label class="radio-btn"><input type="radio" name="marital" value="Married" onclick="toggleOtherField('marital_other_field',this)"> Married</label>
+            <label class="radio-btn"><input type="radio" name="marital" value="Divorced" onclick="toggleOtherField('marital_other_field',this)"> Divorced</label>
+            <label class="radio-btn"><input type="radio" name="marital" value="Widow" onclick="toggleOtherField('marital_other_field',this)"> Widow</label>
+            <label class="radio-btn"><input type="radio" name="marital" value="Widower" onclick="toggleOtherField('marital_other_field',this)"> Widower</label>
+            <label class="radio-btn"><input type="radio" name="marital" value="Other" onclick="toggleOtherField('marital_other_field',this)"> Other</label>
+          </div>
+          <div class="conditional" id="marital_other_field" style="margin-top:10px;padding:12px 16px;">
+            <div class="field-group">
+              <label>Please specify <span class="req">*</span></label>
+              <input type="text" id="marital_other_specify" placeholder="Please specify marital status">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Residential Address</div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Street Address <span class="req">*</span></label>
+          <input type="text" id="res_address1" placeholder="Street number and name" required>
+        </div>
+      </div>
+      <div class="field-row cols-2-1">
+        <div class="field-group">
+          <label>Suburb / Area</label>
+          <input type="text" id="res_address2" placeholder="Suburb">
+        </div>
+        <div class="field-group">
+          <label>Postal Code</label>
+          <input type="text" id="res_code" placeholder="Code">
+        </div>
+      </div>
+
+      <div class="yn-row">
+        <div class="yn-question">Have you moved address since last submitting applications to the SAPS?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="moved_address" value="YES" onclick="ynSelect(this,'moved_address')"> YES</label>
+          <label><input type="radio" name="moved_address" value="NO"  onclick="ynSelect(this,'moved_address')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_moved">
+        <div class="yn-row" style="border:none;padding:0">
+          <div class="yn-question">Have you submitted a Notification of Change of Address to the SAPS?</div>
+          <div class="yn-group">
+            <label><input type="radio" name="change_notified" value="YES" onclick="ynSelect(this,'change_notified');showNotifOffer()"> YES</label>
+            <label><input type="radio" name="change_notified" value="NO"  onclick="ynSelect(this,'change_notified');showNotifOffer()"> NO</label>
+          </div>
+        </div>
+        <div class="conditional show" id="cond_notif_offer" style="display:none;margin-top:12px;background:#FFF8EC;border-left:3px solid var(--gold);">
+          <div class="yn-row" style="border:none;padding:0;align-items:flex-start;gap:12px;">
+            <div class="yn-question" style="color:#4A4A4A;">
+              <strong>Would you like us to add the Notification of Change of Address to your quotation?</strong>
+            </div>
+            <div class="yn-group" style="flex-shrink:0;">
+              <label><input type="radio" name="notif_on_behalf" value="YES" onclick="ynSelect(this,'notif_on_behalf')"> YES</label>
+              <label><input type="radio" name="notif_on_behalf" value="NO"  onclick="ynSelect(this,'notif_on_behalf')"> NO</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Postal Address</div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Street / PO Box</label>
+          <input type="text" id="post_address1" placeholder="Postal address line 1">
+        </div>
+      </div>
+      <div class="field-row cols-2-1">
+        <div class="field-group">
+          <label>Suburb / Area</label>
+          <input type="text" id="post_address2">
+        </div>
+        <div class="field-group">
+          <label>Postal Code</label>
+          <input type="text" id="post_code">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Property &amp; Employment</div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Type of Residence <span class="req">*</span></label>
+          <div class="radio-group" id="residence_type">
+            <label class="radio-btn"><input type="radio" name="residence" value="House" onclick="toggleOtherField('residence_other_field',this)"> House</label>
+            <label class="radio-btn"><input type="radio" name="residence" value="Flat" onclick="toggleOtherField('residence_other_field',this)"> Flat</label>
+            <label class="radio-btn"><input type="radio" name="residence" value="Townhouse" onclick="toggleOtherField('residence_other_field',this)"> Townhouse</label>
+            <label class="radio-btn"><input type="radio" name="residence" value="Farm" onclick="toggleOtherField('residence_other_field',this)"> Farm</label>
+            <label class="radio-btn"><input type="radio" name="residence" value="Small Holding" onclick="toggleOtherField('residence_other_field',this)"> Small Holding</label>
+            <label class="radio-btn"><input type="radio" name="residence" value="Other" onclick="toggleOtherField('residence_other_field',this)"> Other</label>
+          </div>
+          <div class="conditional" id="residence_other_field" style="margin-top:10px;padding:12px 16px;">
+            <div class="field-group">
+              <label>Please specify <span class="req">*</span></label>
+              <input type="text" id="residence_other_specify" placeholder="Please specify type of residence">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Self-Employed? <span class="req">*</span></label>
+          <div class="radio-group" id="self_employed">
+            <label class="radio-btn"><input type="radio" name="self_emp" value="YES"> YES</label>
+            <label class="radio-btn"><input type="radio" name="self_emp" value="NO"> NO</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Profession / Occupation</label>
+          <input type="text" id="profession" placeholder="Your occupation">
+        </div>
+      </div>
+
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Name of Employer / Company</label>
+          <input type="text" id="employer">
+        </div>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Business Address</label>
+          <input type="text" id="biz_address1" placeholder="Street address">
+        </div>
+      </div>
+      <div class="field-row cols-2-1">
+        <div class="field-group">
+          <label>Suburb / Area</label>
+          <input type="text" id="biz_address2">
+        </div>
+        <div class="field-group">
+          <label>Code</label>
+          <input type="text" id="biz_code">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Contact Details</div>
+
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Home Telephone</label>
+          <input type="tel" id="tel_home" placeholder="0xx xxx xxxx">
+        </div>
+        <div class="field-group">
+          <label>Work Telephone</label>
+          <input type="tel" id="tel_work" placeholder="0xx xxx xxxx">
+        </div>
+      </div>
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>Cellphone Number <span class="req">*</span></label>
+          <input type="tel" id="cellphone" placeholder="0xx xxx xxxx" required>
+        </div>
+        <div class="field-group">
+          <label>Fax Number</label>
+          <input type="tel" id="fax">
+        </div>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="your@email.com" required oninput="validateEmail(this)" onblur="validateEmail(this,true)">
+          <span id="email_error" style="display:none;font-size:11px;color:var(--red);margin-top:4px;font-weight:500;">⚠ Please enter a valid email address (e.g. name@domain.com)</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 2: Spouse -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <div class="card-title">Particulars of Spouse / Partner</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row cols-2">
+        <div class="field-group">
+          <label>I.D. Type</label>
+          <div class="radio-group" id="sp_id_type">
+            <label class="radio-btn"><input type="radio" name="sp_id_type" value="SA ID" onclick="switchIDType('sp_id_number','sp_id_type')"> S.A. ID</label>
+            <label class="radio-btn"><input type="radio" name="sp_id_type" value="Passport" onclick="switchIDType('sp_id_number','sp_id_type')"> Passport</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>I.D. / Passport Number</label>
+          <input type="text" id="sp_id_number" placeholder="000000-0000-00-0" maxlength="16" oninput="formatSAIDField(this,'sp_id_type')" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Full Name &amp; Surname</label>
+          <input type="text" id="sp_full_names" placeholder="Spouse full names">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div></div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="step-indicator">Step 1 of 6</span>
+      <button class="btn btn-next" onclick="nextSection()">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: TRAINING                                           -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section" id="sec-1">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <div class="card-title">Training &amp; Firearm Handling Info</div>
+    </div>
+    <div class="card-body">
+
+      <div class="yn-row">
+        <div class="yn-question">Have you completed the prescribed test (Demonstrate Knowledge) 117705?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="test_completed" value="YES" onclick="ynSelect(this,'test_completed')"> YES</label>
+          <label><input type="radio" name="test_completed" value="NO"  onclick="ynSelect(this,'test_completed')"> NO</label>
+        </div>
+      </div>
+
+      <div class="yn-row">
+        <div class="yn-question">Did you complete the practical training on a shooting range?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="practical_training" value="YES" onclick="ynSelect(this,'practical_training');showCond('cond_categories','practical_training','YES')"> YES</label>
+          <label><input type="radio" name="practical_training" value="NO"  onclick="ynSelect(this,'practical_training');showCond('cond_categories','practical_training','NO')"> NO</label>
+        </div>
+      </div>
+
+      <div class="conditional" id="cond_categories">
+        <div class="field-group">
+          <label>Categories completed</label>
+          <div class="check-group">
+            <label class="check-btn"><input type="checkbox" name="cat_handgun" value="Handgun"> Handgun</label>
+            <label class="check-btn"><input type="checkbox" name="cat_shotgun" value="Shotgun"> Shotgun</label>
+            <label class="check-btn"><input type="checkbox" name="cat_mlr" value="Manual Loading Rifle"> Manual Loading Rifle</label>
+            <label class="check-btn"><input type="checkbox" name="cat_slr" value="Self Loading Rifle/Carbine"> Self Loading Rifle/Carbine</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row cols-1" style="margin-top:14px">
+        <div class="field-group">
+          <label>Name of Training Centre</label>
+          <input type="text" id="training_centre" placeholder="Training centre name">
+        </div>
+      </div>
+
+      <div class="yn-row">
+        <div class="yn-question">Do you have a Training Certificate from your Training Centre?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="has_certificate" value="YES" onclick="ynSelect(this,'has_certificate')"> YES</label>
+          <label><input type="radio" name="has_certificate" value="NO"  onclick="ynSelect(this,'has_certificate')"> NO</label>
+        </div>
+      </div>
+
+      <div class="yn-row">
+        <div class="yn-question">Do you have a Statement of Results (SASSETA/PFTC) from your Training Centre?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="has_results" value="YES" onclick="ynSelect(this,'has_results')"> YES</label>
+          <label><input type="radio" name="has_results" value="NO"  onclick="ynSelect(this,'has_results')"> NO</label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-prev" onclick="prevSection()">&larr; Back</button>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="step-indicator">Step 2 of 6</span>
+      <button class="btn btn-next" onclick="nextSection()">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: CRIMINAL BACKGROUND                                -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section" id="sec-2">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <div class="card-title">Criminal Background</div>
+    </div>
+    <div class="card-body">
+
+      <!-- Q1 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>1.</strong> Have you ever been convicted of an offence committed inside or outside the borders of RSA?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="convicted" value="YES" onclick="ynSelect(this,'convicted');showCond('cond_convicted','convicted','YES')"> YES</label>
+          <label><input type="radio" name="convicted" value="NO"  onclick="ynSelect(this,'convicted');hideCond('cond_convicted')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_convicted">
+        <div class="sub-heading" style="margin-bottom:10px">Conviction 1</div>
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="conv1_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="conv1_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge</label><input type="text" id="conv1_charge"></div></div>
+        <div class="field-row cols-1"><div class="field-group"><label>Outcome</label><input type="text" id="conv1_outcome"></div></div>
+        <div class="sub-heading" style="margin:14px 0 10px">Conviction 2 (if applicable)</div>
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="conv2_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="conv2_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge</label><input type="text" id="conv2_charge"></div></div>
+        <div class="field-row cols-1"><div class="field-group"><label>Outcome</label><input type="text" id="conv2_outcome"></div></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>2.</strong> Are there any cases pending against you?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="cases_pending" value="YES" onclick="ynSelect(this,'cases_pending');showCond('cond_pending','cases_pending','YES')"> YES</label>
+          <label><input type="radio" name="cases_pending" value="NO"  onclick="ynSelect(this,'cases_pending');hideCond('cond_pending')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_pending">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="pend_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="pend_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge</label><input type="text" id="pend_charge"></div></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>3.</strong> Have any of your firearms ever been lost or stolen?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="firearm_lost" value="YES" onclick="ynSelect(this,'firearm_lost');showCond('cond_lost','firearm_lost','YES')"> YES</label>
+          <label><input type="radio" name="firearm_lost" value="NO"  onclick="ynSelect(this,'firearm_lost');hideCond('cond_lost')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_lost">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="lost_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="lost_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Circumstances</label><input type="text" id="lost_circumstances"></div></div>
+        <div class="field-row cols-1"><div class="field-group"><label>Firearm Details (Type / Calibre / Make / Serial No.)</label><input type="text" id="lost_firearm_details"></div></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>4.</strong> Was a case of negligence opened and investigated regarding the lost/stolen firearm?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="negligence" value="YES" onclick="ynSelect(this,'negligence');showCond('cond_neg','negligence','YES')"> YES</label>
+          <label><input type="radio" name="negligence" value="NO"  onclick="ynSelect(this,'negligence');hideCond('cond_neg')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_neg">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="neg_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="neg_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge</label><input type="text" id="neg_charge"></div></div>
+        <div class="field-row cols-1"><div class="field-group"><label>Outcome</label><input type="text" id="neg_outcome"></div></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>5.</strong> Have you ever been declared unfit to possess a firearm?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="unfit" value="YES" onclick="ynSelect(this,'unfit');showCond('cond_unfit','unfit','YES')"> YES</label>
+          <label><input type="radio" name="unfit" value="NO"  onclick="ynSelect(this,'unfit');hideCond('cond_unfit')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_unfit">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="unfit_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="unfit_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge</label><input type="text" id="unfit_charge"></div></div>
+        <div class="field-row cols-2">
+          <div class="field-group"><label>From Date</label><input type="date" id="unfit_from_date"></div>
+          <div class="field-group"><label>Period</label><input type="text" id="unfit_period" placeholder="e.g. 2 years"></div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>6.</strong> Has a firearm in your possession ever been confiscated?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="confiscated" value="YES" onclick="ynSelect(this,'confiscated');showCond('cond_conf','confiscated','YES')"> YES</label>
+          <label><input type="radio" name="confiscated" value="NO"  onclick="ynSelect(this,'confiscated');hideCond('cond_conf')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_conf">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Police Station</label><input type="text" id="conf_station"></div>
+          <div class="field-group"><label>Case Number</label><input type="text" id="conf_case"></div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Charge / Circumstances</label><input type="text" id="conf_charge"></div></div>
+        <div class="field-row cols-1"><div class="field-group"><label>Firearm Details (Type / Calibre / Make / Serial No.)</label><input type="text" id="conf_firearm_details"></div></div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>7.</strong> In the past 5 years, have you been served with a protection order or visited by police regarding allegations of violence or conflict?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="protection_order" value="YES" onclick="ynSelect(this,'protection_order');showCond('cond_prot','protection_order','YES')"> YES</label>
+          <label><input type="radio" name="protection_order" value="NO"  onclick="ynSelect(this,'protection_order');hideCond('cond_prot')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_prot">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="prot_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>8.</strong> In the past 5 years, have you been denied a licence, permit or authorisation regarding a firearm?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="denied_licence" value="YES" onclick="ynSelect(this,'denied_licence');showCond('cond_denied','denied_licence','YES')"> YES</label>
+          <label><input type="radio" name="denied_licence" value="NO"  onclick="ynSelect(this,'denied_licence');hideCond('cond_denied')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_denied">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="denied_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>9.</strong> In the past 5 years, have you threatened or attempted suicide, suffered from major depression, emotional problems, drugs or alcohol abuse?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="mental_health" value="YES" onclick="ynSelect(this,'mental_health');showCond('cond_mental','mental_health','YES')"> YES</label>
+          <label><input type="radio" name="mental_health" value="NO"  onclick="ynSelect(this,'mental_health');hideCond('cond_mental')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_mental">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="mental_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>10.</strong> Did you see a doctor / medical professional for any of the above?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="saw_doctor" value="YES" onclick="ynSelect(this,'saw_doctor');showCond('cond_doctor','saw_doctor','YES')"> YES</label>
+          <label><input type="radio" name="saw_doctor" value="NO"  onclick="ynSelect(this,'saw_doctor');hideCond('cond_doctor')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_doctor">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="doctor_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>11.</strong> In the past 2 years, did you experience a divorce or separation from an intimate partner with written allegations of violence?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="divorce" value="YES" onclick="ynSelect(this,'divorce');showCond('cond_divorce','divorce','YES')"> YES</label>
+          <label><input type="radio" name="divorce" value="NO"  onclick="ynSelect(this,'divorce');hideCond('cond_divorce')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_divorce">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="divorce_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="yn-row">
+        <div class="yn-question"><strong>12.</strong> In the past 2 years, have you experienced any forced job loss?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="job_loss" value="YES" onclick="ynSelect(this,'job_loss');showCond('cond_jobloss','job_loss','YES')"> YES</label>
+          <label><input type="radio" name="job_loss" value="NO"  onclick="ynSelect(this,'job_loss');hideCond('cond_jobloss')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_jobloss">
+        <div class="field-row cols-1"><div class="field-group"><label>Comments</label><textarea id="jobloss_comments" rows="2"></textarea></div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Under 21 Applicants</div>
+      <p style="font-size:13px;color:var(--grey500);margin-bottom:14px">If you are under 21, why do you want to apply for a firearm? (Select all that apply)</p>
+      <div class="check-group">
+        <label class="check-btn"><input type="checkbox" name="under21" value="Conduct Business"> Conduct Business</label>
+        <label class="check-btn"><input type="checkbox" name="under21" value="Gainfully Employed"> Gainfully Employed</label>
+        <label class="check-btn"><input type="checkbox" name="under21" value="Dedicated Hunter"> Dedicated Hunter</label>
+        <label class="check-btn"><input type="checkbox" name="under21" value="Dedicated Sport Shooter"> Dedicated Sport Shooter</label>
+        <label class="check-btn"><input type="checkbox" name="under21" value="Private Collector"> Private Collector</label>
+      </div>
+      <div class="field-row cols-1" style="margin-top:12px">
+        <div class="field-group"><label>Other – provide details</label><input type="text" id="under21_other"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-prev" onclick="prevSection()">&larr; Back</button>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="step-indicator">Step 3 of 6</span>
+      <button class="btn btn-next" onclick="nextSection()">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: SAFE & MEMBERSHIPS                                 -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section" id="sec-3">
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">5</div>
+      <div class="card-title">Safe &amp; Security Information</div>
+    </div>
+    <div class="card-body">
+
+      <div class="yn-row">
+        <div class="yn-question">Do you have a prescribed safe?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="has_safe" value="YES" onclick="ynSelect(this,'has_safe');showCond('cond_safe','has_safe','YES')"> YES</label>
+          <label><input type="radio" name="has_safe" value="NO"  onclick="ynSelect(this,'has_safe');showCond('cond_safe','has_safe','NO')"> NO</label>
+        </div>
+      </div>
+
+      <div class="conditional" id="cond_safe">
+        <div class="field-group" style="margin-bottom:14px">
+          <label>Type of Safe</label>
+          <div class="radio-group">
+            <label class="radio-btn"><input type="radio" name="safe_type" value="Handgun"> Handgun</label>
+            <label class="radio-btn"><input type="radio" name="safe_type" value="Shotgun/Rifle"> Shotgun/Rifle</label>
+            <label class="radio-btn"><input type="radio" name="safe_type" value="Strongroom"> Strongroom</label>
+          </div>
+        </div>
+        <div class="field-row cols-1"><div class="field-group"><label>Description of Safe</label><input type="text" id="safe_desc"></div></div>
+        <div class="yn-row" style="border:none;padding:8px 0 0">
+          <div class="yn-question">Does the safe exceed 350 kg?</div>
+          <div class="yn-group">
+            <label><input type="radio" name="safe_350kg" value="YES" onclick="ynSelect(this,'safe_350kg')"> YES</label>
+            <label><input type="radio" name="safe_350kg" value="NO"  onclick="ynSelect(this,'safe_350kg')"> NO</label>
+          </div>
+        </div>
+        <div class="yn-row" style="border:none;padding:8px 0 0">
+          <div class="yn-question">Is the safe mounted?</div>
+          <div class="yn-group">
+            <label><input type="radio" name="safe_mounted" value="YES" onclick="ynSelect(this,'safe_mounted');showCond('cond_rawlbolts','safe_mounted','YES')"> YES</label>
+            <label><input type="radio" name="safe_mounted" value="NO"  onclick="ynSelect(this,'safe_mounted');showCond('cond_rawlbolts','safe_mounted','NO')"> NO</label>
+          </div>
+        </div>
+        <div class="conditional" id="cond_rawlbolts">
+          <div class="field-row cols-2">
+            <div class="field-group"><label>Rawlbolts to Floor</label><input type="text" id="rawlbolts_floor" placeholder="Number"></div>
+            <div class="field-group"><label>Rawlbolts to Wall</label><input type="text" id="rawlbolts_wall" placeholder="Number"></div>
+          </div>
+          <div class="field-group" style="margin-top:10px">
+            <label>Rawlbolt Size</label>
+            <div class="radio-group">
+              <label class="radio-btn"><input type="radio" name="rawlbolt_size" value="8MM"> 8mm</label>
+              <label class="radio-btn"><input type="radio" name="rawlbolt_size" value="10MM"> 10mm</label>
+              <label class="radio-btn"><input type="radio" name="rawlbolt_size" value="12MM"> 12mm</label>
+              <label class="radio-btn"><input type="radio" name="rawlbolt_size" value="16MM"> 16mm</label>
+              <label class="radio-btn"><input type="radio" name="rawlbolt_size" value="NOT SURE"> Not Sure</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sub-heading">Other Security</div>
+      <div class="check-group" style="margin-bottom:14px">
+        <label class="check-btn"><input type="checkbox" name="security" value="Alarm System"> Alarm System</label>
+        <label class="check-btn"><input type="checkbox" name="security" value="Armed Response"> Armed Response</label>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field-group"><label>Armed Response Service Provider Name</label><input type="text" id="security_provider"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">6</div>
+      <div class="card-title">Membership(s)</div>
+    </div>
+    <div class="card-body">
+
+      <div class="yn-row">
+        <div class="yn-question">Are you a member of an Accredited Hunting/Sport Shooting Association?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="is_member" value="YES" onclick="ynSelect(this,'is_member');showCond('cond_member','is_member','YES')"> YES</label>
+          <label><input type="radio" name="is_member" value="NO"  onclick="ynSelect(this,'is_member');hideCond('cond_member')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_member">
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Association 1 Name</label><input type="text" id="assoc1_name"></div>
+          <div class="field-group"><label>Date Joined</label><input type="date" id="assoc1_date"></div>
+        </div>
+        <div class="field-row cols-2">
+          <div class="field-group"><label>Association 2 Name (if applicable)</label><input type="text" id="assoc2_name"></div>
+          <div class="field-group"><label>Date Joined</label><input type="date" id="assoc2_date"></div>
+        </div>
+      </div>
+
+      <div class="yn-row">
+        <div class="yn-question">Do you have Dedicated Status?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="dedicated_status" value="YES" onclick="ynSelect(this,'dedicated_status');showCond('cond_dedicated','dedicated_status','YES')"> YES</label>
+          <label><input type="radio" name="dedicated_status" value="NO"  onclick="ynSelect(this,'dedicated_status');hideCond('cond_dedicated')"> NO</label>
+        </div>
+      </div>
+      <div class="conditional" id="cond_dedicated">
+        <div class="field-group">
+          <label>Dedicated Status Type</label>
+          <div class="radio-group">
+            <label class="radio-btn"><input type="radio" name="dedicated_type" value="Hunting"> Hunting</label>
+            <label class="radio-btn"><input type="radio" name="dedicated_type" value="Sport Shooting"> Sport Shooting</label>
+            <label class="radio-btn"><input type="radio" name="dedicated_type" value="Hunting & Sport Shooting"> Hunting &amp; Sport Shooting</label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-prev" onclick="prevSection()">&larr; Back</button>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="step-indicator">Step 4 of 6</span>
+      <button class="btn btn-next" onclick="nextSection()">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: LICENCES & COMPETENCIES                            -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section" id="sec-4">
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">7</div>
+      <div class="card-title">Licence(s) to be Renewed</div>
+    </div>
+    <div class="card-body">
+
+      <div class="field-group" style="margin-bottom:16px">
+        <label>Licence Holder Type <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-btn"><input type="radio" name="holder_type" value="Main Licence Holder"> Main Licence Holder</label>
+          <label class="radio-btn"><input type="radio" name="holder_type" value="Additional Licence Holder"> Additional Licence Holder</label>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="lic-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Calibre</th>
+              <th>Make</th>
+              <th>Serial Number</th>
+              <th>Under Section</th>
+            </tr>
+          </thead>
+          <tbody id="lic_table_body">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sections-info" style="margin-top:20px">
+        <table>
+          <thead><tr><th>Section</th><th>Type of Licence</th><th>Validity</th></tr></thead>
+          <tbody>
+            <tr><td>13</td><td>Firearm For Self Defence</td><td>5 Years</td></tr>
+            <tr><td>14</td><td>Restricted Firearm For Self Defence</td><td>2 Years</td></tr>
+            <tr><td>15</td><td>Occasional Hunting or Sport Shooting</td><td>10 Years</td></tr>
+            <tr><td>16</td><td>Dedicated Hunting or Sport Shooting</td><td>10 Years</td></tr>
+            <tr><td>16A</td><td>Professional Hunter</td><td>10 Years</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="field-row cols-1" style="margin-top:16px">
+        <div class="field-group">
+          <label>Reason for late submission (within 90 days, if applicable)</label>
+          <textarea id="late_reason" rows="2" placeholder="Only complete if submitting within 90 days after expiry"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">10</div>
+      <div class="card-title">SAPS Competencies Issued</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row cols-1">
+        <div class="field-group">
+          <label>Type of Competency Certificate(s)</label>
+          <div class="check-group">
+            <label class="check-btn"><input type="checkbox" name="comp_type" value="To Possess"> To Possess</label>
+            <label class="check-btn"><input type="checkbox" name="comp_type" value="To Trade"> To Trade</label>
+          </div>
+        </div>
+      </div>
+      <div class="field-row cols-1" style="margin-top:10px">
+        <div class="field-group">
+          <label>For which categories</label>
+          <div class="check-group">
+            <label class="check-btn"><input type="checkbox" name="comp_cat" value="Handgun"> Handgun</label>
+            <label class="check-btn"><input type="checkbox" name="comp_cat" value="Shotgun"> Shotgun</label>
+            <label class="check-btn"><input type="checkbox" name="comp_cat" value="Manual Loading Rifle"> Manual Loading Rifle</label>
+            <label class="check-btn"><input type="checkbox" name="comp_cat" value="Self Loading Rifle"> Self Loading Rifle</label>
+          </div>
+        </div>
+      </div>
+      <div class="field-row cols-2" style="margin-top:14px">
+        <div class="field-group"><label>Date of Issue</label><input type="date" id="comp_date_issued"></div>
+        <div class="field-group"><label>Already Renewed? If yes, date:</label><input type="date" id="comp_renewed"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">11</div>
+      <div class="card-title">Number of Firearms in Possession</div>
+    </div>
+    <div class="card-body">
+      <div class="yn-row">
+        <div class="yn-question">Do you have a Self Defence Firearm?</div>
+        <div class="yn-group">
+          <label><input type="radio" name="has_self_defence" value="YES" onclick="ynSelect(this,'has_self_defence')"> YES</label>
+          <label><input type="radio" name="has_self_defence" value="NO"  onclick="ynSelect(this,'has_self_defence')"> NO</label>
+        </div>
+      </div>
+      <div class="field-row cols-2" style="margin-top:12px">
+        <div class="field-group">
+          <label>Total Hunting/Sport Shooting Firearms</label>
+          <input type="number" id="total_hunting_firearms" placeholder="Number" min="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-prev" onclick="prevSection()">&larr; Back</button>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="step-indicator">Step 5 of 6</span>
+      <button class="btn btn-next" onclick="nextSection()">Review &amp; Submit &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: SUBMIT                                             -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="form-section" id="sec-5">
+  <div class="submit-section">
+    <div style="font-size:48px;margin-bottom:12px">📋</div>
+    <h2>Ready to Submit</h2>
+    <p>Your form is complete and ready to send to Legally Armed.<br>All your information is kept strictly confidential.</p>
+
+    <div class="submit-options" style="justify-content:center;">
+      <div class="submit-card" style="max-width:360px;" onclick="submitForm()">
+        <div class="icon">📄✉️</div>
+        <h3>Save PDF &amp; Send to Legally Armed</h3>
+        <p>Saves a filled PDF copy of your form to your device and sends a copy to Sandra at Legally Armed.</p>
+        <button class="btn btn-gold" style="width:100%" id="submit_btn">Save PDF &amp; Send Email</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-msg" id="success_msg">
+    <div class="checkmark">✅</div>
+    <h2>Form Submitted!</h2>
+    <p>Thank you. Your completed form has been prepared.<br>Please check your email client to send it to Legally Armed.</p>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn btn-prev" onclick="prevSection()">&larr; Back</button>
+    <div></div>
+  </div>
+</div>
+
+</div><!-- /form-wrap -->
+
+<script>
+// ── EmailJS Init ──────────────────────────────────────────────────────────
+var s=document.createElement('script');s.src='https://unpkg.com/@emailjs/browser@4/dist/email.min.js';s.onload=function(){emailjs.init('dEd33tTPJt6Z0MwD0');};document.head.appendChild(s);
+
+// ── State ──────────────────────────────────────────────────────────────────
+let currentSection = 0;
+const totalSections = 6;
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function goTo(idx) {
+  document.getElementById('sec-' + currentSection).classList.remove('active');
+  document.querySelectorAll('.step-item')[currentSection].classList.remove('active');
+  document.querySelectorAll('.step-item')[currentSection].classList.add('done');
+  currentSection = idx;
+  document.getElementById('sec-' + currentSection).classList.add('active');
+  document.querySelectorAll('.step-item').forEach((s,i) => {
+    s.classList.remove('active','done');
+    if (i < currentSection) s.classList.add('done');
+    if (i === currentSection) s.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextSection() {
+  // Validate email when leaving step 1
+  if (currentSection === 0) {
+    const emailInput = document.getElementById('email');
+    if (emailInput && !validateEmail(emailInput, true)) {
+      emailInput.focus();
+      return;
+    }
+  }
+  // Validate all criminal background questions answered before leaving step 3
+  if (currentSection === 2) {
+    if (!validateCriminalSection()) return;
+  }
+  if (currentSection < totalSections - 1) goTo(currentSection + 1);
+}
+function prevSection() {
+  if (currentSection > 0) goTo(currentSection - 1);
+}
+
+// ── Radio / Checkbox styling ───────────────────────────────────────────────
+document.addEventListener('change', function(e) {
+  const input = e.target;
+  if (input.type === 'radio' && input.closest('.radio-group')) {
+    input.closest('.radio-group').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected'));
+    input.closest('.radio-btn').classList.add('selected');
+  }
+  if (input.type === 'checkbox' && input.closest('.check-group')) {
+    input.closest('.check-btn').classList.toggle('selected', input.checked);
+  }
+});
+
+// ── YES/NO styling ─────────────────────────────────────────────────────────
+function ynSelect(radio, name) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+    const lbl = r.closest('label');
+    lbl.classList.remove('yes-sel','no-sel');
+  });
+  const lbl = radio.closest('label');
+  lbl.classList.add(radio.value === 'YES' ? 'yes-sel' : 'no-sel');
+}
+
+// ── Conditional reveal ─────────────────────────────────────────────────────
+function showCond(condId, radioName, showOnValue) {
+  const val = document.querySelector(`input[name="${radioName}"]:checked`)?.value;
+  const el = document.getElementById(condId);
+  if (el) el.classList.toggle('show', val === showOnValue);
+}
+
+// Special case: moved address toggle
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[name="moved_address"]').forEach(r => {
+    r.addEventListener('change', () => {
+      showCond('cond_moved','moved_address','YES');
+      ynSelect(r,'moved_address');
+    });
+  });
+});
+
+// ── Build licence table rows ───────────────────────────────────────────────
+(function buildLicTable() {
+  const tbody = document.getElementById('lic_table_body');
+  for (let i = 1; i <= 5; i++) {
+    const tr = document.createElement('tr');
+    ['type','calibre','make','serial','section'].forEach(col => {
+      const td = document.createElement('td');
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.id = `lic${i}_${col}`;
+      inp.placeholder = col === 'section' ? 'e.g. 13' : '';
+      td.appendChild(inp);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  }
+})();
+
+// ── Collect all form data ──────────────────────────────────────────────────
+function collectData() {
+  const d = {};
+  // Text / date / number inputs
+  document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="date"],input[type="number"],textarea').forEach(el => {
+    if (el.id) d[el.id] = el.value.trim();
+  });
+  // Radios
+  document.querySelectorAll('input[type="radio"]:checked').forEach(el => {
+    d[el.name] = el.value;
+  });
+  // Checkboxes
+  const cbGroups = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    if (!cbGroups[el.name]) cbGroups[el.name] = [];
+    if (el.checked) cbGroups[el.name].push(el.value);
+  });
+  Object.assign(d, cbGroups);
+  return d;
+}
+
+// ── PDF Download ───────────────────────────────────────────────────────────
+function downloadPDF() {
+  const d = collectData();
+
+  const yn = v => v || '______';
+  const val = id => d[id] || '______';
+
+  const html = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 10pt; margin: 0; padding: 20px; color: #222; }
+  h1 { font-size: 13pt; color: #4A4A4A; margin-bottom: 2px; }
+  .subtitle { font-size: 8pt; color: #9E9E9E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; }
+  .date-line { float: right; font-size: 9pt; color: #555; }
+  table.form-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+  .section-head { background: #4A4A4A; color: white; padding: 5px 8px; font-size: 9.5pt; font-weight: bold; margin: 16px 0 8px; }
+  td.label { font-size: 8.5pt; color: #666; width: 38%; padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+  td.value { font-size: 9.5pt; font-weight: 500; padding: 4px 6px; border-bottom: 1px solid #eee; vertical-align: top; }
+  .gold-bar { height: 2px; background: #9E9E9E; margin-bottom: 16px; }
+  .page-num { text-align: right; font-size: 8pt; color: #999; margin-top: 20px; }
+  @media print { body { padding: 10px; } }
+</style>
+</head><body>
+<div class="date-line">Date: ${val('app_date')}</div>
+<h1>CHECKLIST – APPLICATION FOR A COMPETENCY &amp; LICENCE RENEWAL</h1>
+<div class="subtitle">Legally Armed &nbsp;·&nbsp; Confidential Client Document</div>
+<div class="gold-bar"></div>
+
+<div class="section-head">1. PARTICULARS OF APPLICANT</div>
+<table class="form-table">
+  <tr><td class="label">I.D. Type</td><td class="value">${yn(d.id_type)}</td><td class="label">I.D. Number</td><td class="value">${val('id_number')}</td></tr>
+  <tr><td class="label">Citizenship</td><td class="value">${yn(d.citizenship)}</td><td class="label">Age</td><td class="value">${val('age')}</td></tr>
+  <tr><td class="label">Full Names &amp; Surname</td><td class="value" colspan="3">${val('full_names')}</td></tr>
+  <tr><td class="label">Nickname</td><td class="value">${val('nickname')}</td><td class="label">Marital Status</td><td class="value">${d.marital==='Other'?'Other – '+(d.marital_other_specify||'not specified'):yn(d.marital)}</td></tr>
+  <tr><td class="label">Residential Address</td><td class="value" colspan="3">${val('res_address1')} ${val('res_address2')} ${val('res_code')}</td></tr>
+  <tr><td class="label">Moved Address?</td><td class="value">${yn(d.moved_address)}</td><td class="label">Change Notified?</td><td class="value">${yn(d.change_notified)}</td></tr>
+  ${d.change_notified==='NO'&&d.moved_address==='YES'?`<tr><td class="label">Notify on Behalf?</td><td class="value" colspan="3">${yn(d.notif_on_behalf)}</td></tr>`:''}
+  <tr><td class="label">Postal Address</td><td class="value" colspan="3">${val('post_address1')} ${val('post_address2')} ${val('post_code')}</td></tr>
+  <tr><td class="label">Type of Residence</td><td class="value">${d.residence==='Other'?'Other – '+(d.residence_other_specify||'not specified'):yn(d.residence)}</td><td class="label">Self-Employed</td><td class="value">${yn(d.self_emp)}</td></tr>
+  <tr><td class="label">Profession</td><td class="value">${val('profession')}</td><td class="label">Employer/Company</td><td class="value">${val('employer')}</td></tr>
+  <tr><td class="label">Business Address</td><td class="value" colspan="3">${val('biz_address1')} ${val('biz_address2')} ${val('biz_code')}</td></tr>
+  <tr><td class="label">Home Tel</td><td class="value">${val('tel_home')}</td><td class="label">Work Tel</td><td class="value">${val('tel_work')}</td></tr>
+  <tr><td class="label">Cellphone</td><td class="value">${val('cellphone')}</td><td class="label">Fax</td><td class="value">${val('fax')}</td></tr>
+  <tr><td class="label">Email</td><td class="value" colspan="3">${val('email')}</td></tr>
+</table>
+
+<div class="section-head">2. PARTICULARS OF SPOUSE / PARTNER</div>
+<table class="form-table">
+  <tr><td class="label">I.D. Type</td><td class="value">${yn(d.sp_id_type)}</td><td class="label">I.D. Number</td><td class="value">${val('sp_id_number')}</td></tr>
+  <tr><td class="label">Full Name &amp; Surname</td><td class="value" colspan="3">${val('sp_full_names')}</td></tr>
+</table>
+
+<div class="section-head">3. TRAINING &amp; FIREARM HANDLING INFO</div>
+<table class="form-table">
+  <tr><td class="label">Prescribed test (117705) completed?</td><td class="value">${yn(d.test_completed)}</td></tr>
+  <tr><td class="label">Practical training on range?</td><td class="value">${yn(d.practical_training)}</td></tr>
+  <tr><td class="label">Categories</td><td class="value">${(d.cat_handgun||[]).concat(d.cat_shotgun||[],d.cat_mlr||[],d.cat_slr||[]).join(', ')||'N/A'}</td></tr>
+  <tr><td class="label">Training Centre</td><td class="value">${val('training_centre')}</td></tr>
+  <tr><td class="label">Has Training Certificate?</td><td class="value">${yn(d.has_certificate)}</td><td class="label">Has Statement of Results?</td><td class="value">${yn(d.has_results)}</td></tr>
+</table>
+
+<div class="section-head">4. CRIMINAL BACKGROUND</div>
+<table class="form-table">
+  <tr><td class="label">Ever convicted?</td><td class="value">${yn(d.convicted)}</td></tr>
+  ${d.convicted==='YES'?`<tr><td class="label">Conviction 1 – Station</td><td class="value">${val('conv1_station')}</td><td class="label">Case No.</td><td class="value">${val('conv1_case')}</td></tr>
+  <tr><td class="label">Charge</td><td class="value">${val('conv1_charge')}</td><td class="label">Outcome</td><td class="value">${val('conv1_outcome')}</td></tr>`:''}
+  <tr><td class="label">Cases pending?</td><td class="value">${yn(d.cases_pending)}</td></tr>
+  <tr><td class="label">Firearms lost/stolen?</td><td class="value">${yn(d.firearm_lost)}</td></tr>
+  <tr><td class="label">Negligence case?</td><td class="value">${yn(d.negligence)}</td></tr>
+  <tr><td class="label">Declared unfit?</td><td class="value">${yn(d.unfit)}</td></tr>
+  <tr><td class="label">Firearm confiscated?</td><td class="value">${yn(d.confiscated)}</td></tr>
+  <tr><td class="label">Protection order (5 yrs)?</td><td class="value">${yn(d.protection_order)}</td></tr>
+  <tr><td class="label">Licence denied (5 yrs)?</td><td class="value">${yn(d.denied_licence)}</td></tr>
+  <tr><td class="label">Mental health/substance issues (5 yrs)?</td><td class="value">${yn(d.mental_health)}</td></tr>
+  <tr><td class="label">Saw doctor for above?</td><td class="value">${yn(d.saw_doctor)}</td></tr>
+  <tr><td class="label">Divorce/separation with violence (2 yrs)?</td><td class="value">${yn(d.divorce)}</td></tr>
+  <tr><td class="label">Forced job loss (2 yrs)?</td><td class="value">${yn(d.job_loss)}</td></tr>
+</table>
+
+<div class="section-head">5. SAFE &amp; SECURITY</div>
+<table class="form-table">
+  <tr><td class="label">Has prescribed safe?</td><td class="value">${yn(d.has_safe)}</td><td class="label">Safe type</td><td class="value">${yn(d.safe_type)}</td></tr>
+  <tr><td class="label">Description</td><td class="value" colspan="3">${val('safe_desc')}</td></tr>
+  <tr><td class="label">Exceeds 350kg?</td><td class="value">${yn(d.safe_350kg)}</td><td class="label">Mounted?</td><td class="value">${yn(d.safe_mounted)}</td></tr>
+  <tr><td class="label">Rawlbolts Floor / Wall</td><td class="value">${val('rawlbolts_floor')} / ${val('rawlbolts_wall')}</td><td class="label">Rawlbolt size</td><td class="value">${yn(d.rawlbolt_size)}</td></tr>
+  <tr><td class="label">Security</td><td class="value">${(d.security||[]).join(', ')||'None'}</td><td class="label">Service Provider</td><td class="value">${val('security_provider')}</td></tr>
+</table>
+
+<div class="section-head">6. MEMBERSHIPS</div>
+<table class="form-table">
+  <tr><td class="label">Member of association?</td><td class="value">${yn(d.is_member)}</td><td class="label">Dedicated status?</td><td class="value">${yn(d.dedicated_status)}</td></tr>
+  <tr><td class="label">Association 1</td><td class="value">${val('assoc1_name')}</td><td class="label">Date Joined</td><td class="value">${val('assoc1_date')}</td></tr>
+  <tr><td class="label">Association 2</td><td class="value">${val('assoc2_name')}</td><td class="label">Date Joined</td><td class="value">${val('assoc2_date')}</td></tr>
+  <tr><td class="label">Dedicated type</td><td class="value">${yn(d.dedicated_type)}</td></tr>
+</table>
+
+<div class="section-head">7. LICENCES TO BE RENEWED</div>
+<table class="form-table">
+  <tr style="background:#eee"><td class="label"><b>Type</b></td><td class="label"><b>Calibre</b></td><td class="label"><b>Make</b></td><td class="label"><b>Serial No.</b></td><td class="label"><b>Section</b></td></tr>
+  ${[1,2,3,4,5].map(i=>`<tr><td class="value">${d[`lic${i}_type`]||''}</td><td class="value">${d[`lic${i}_calibre`]||''}</td><td class="value">${d[`lic${i}_make`]||''}</td><td class="value">${d[`lic${i}_serial`]||''}</td><td class="value">${d[`lic${i}_section`]||''}</td></tr>`).join('')}
+</table>
+
+<div class="section-head">10. SAPS COMPETENCIES</div>
+<table class="form-table">
+  <tr><td class="label">Certificate type(s)</td><td class="value">${(d.comp_type||[]).join(', ')||'N/A'}</td></tr>
+  <tr><td class="label">Categories</td><td class="value">${(d.comp_cat||[]).join(', ')||'N/A'}</td></tr>
+  <tr><td class="label">Date Issued</td><td class="value">${val('comp_date_issued')}</td><td class="label">Renewal Date</td><td class="value">${val('comp_renewed')}</td></tr>
+</table>
+
+<div class="section-head">11. FIREARMS IN POSSESSION</div>
+<table class="form-table">
+  <tr><td class="label">Self Defence Firearm?</td><td class="value">${yn(d.has_self_defence)}</td><td class="label">Total Hunting/Sport</td><td class="value">${val('total_hunting_firearms')}</td></tr>
+</table>
+
+<div class="page-num">Legally Armed – Competency &amp; Licence Renewal Checklist &nbsp;·&nbsp; Confidential</div>
+
+<!-- ── Criminal Background Validation Modal ───────────────────────────────── -->
+<div id="criminal_modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;max-width:480px;width:90%;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;">
+    <div style="background:#4A4A4A;padding:16px 24px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:22px;">⚠️</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff;letter-spacing:0.03em;">Please Answer All Questions</span>
+    </div>
+    <div style="padding:24px;">
+      <p style="font-size:14px;color:#4A4A4A;line-height:1.7;margin-bottom:12px;">The following criminal background questions have not been answered yet:</p>
+      <ul id="criminal_unanswered_list" style="margin:0 0 20px 16px;padding:0;font-size:13px;color:#B04040;line-height:2;"></ul>
+      <p style="font-size:12.5px;color:#8A7F70;">All questions must be answered YES or NO before you can continue.</p>
+    </div>
+    <div style="padding:0 24px 24px;text-align:right;">
+      <button onclick="closeCriminalModal()" style="padding:10px 28px;background:#4A4A4A;color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;">Go Back & Complete</button>
+    </div>
+  </div>
+</div>
+
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.onload = () => {
+      setTimeout(() => { win.print(); }, 400);
+    };
+  }
+}
+
+// ── Email Submit ───────────────────────────────────────────────────────────
+function sendEmail() {
+  const d = collectData();
+  const yn = v => v || 'Not answered';
+  const val = id => d[id] || '—';
+
+  const subject = encodeURIComponent(`Competency & Licence Renewal – ${val('full_names')}`);
+  const body = encodeURIComponent(`COMPETENCY & LICENCE RENEWAL CHECKLIST
+Legally Armed – Confidential Submission
+Date: ${val('app_date')}
+${'='.repeat(60)}
+
+1. PARTICULARS OF APPLICANT
+ID Type: ${yn(d.id_type)}
+ID Number: ${val('id_number')}
+Citizenship: ${yn(d.citizenship)}
+Full Names: ${val('full_names')}
+Nickname: ${val('nickname')}
+Age: ${val('age')}
+Marital Status: ${d.marital === 'Other' ? 'Other – ' + (val('marital_other_specify') || 'not specified') : yn(d.marital)}
+Residential Address: ${val('res_address1')}, ${val('res_address2')}, ${val('res_code')}
+Moved Address: ${yn(d.moved_address)} | Change Notified: ${yn(d.change_notified)} | Notify on Behalf: ${yn(d.notif_on_behalf)}
+Postal Address: ${val('post_address1')}, ${val('post_address2')}, ${val('post_code')}
+Type of Residence: ${d.residence === 'Other' ? 'Other – ' + (val('residence_other_specify') || 'not specified') : yn(d.residence)}
+Self-Employed: ${yn(d.self_emp)}
+Profession: ${val('profession')}
+Employer: ${val('employer')}
+Business Address: ${val('biz_address1')}, ${val('biz_address2')}, ${val('biz_code')}
+Home Tel: ${val('tel_home')} | Work Tel: ${val('tel_work')}
+Cellphone: ${val('cellphone')} | Fax: ${val('fax')}
+Email: ${val('email')}
+
+2. SPOUSE / PARTNER
+ID Type: ${yn(d.sp_id_type)} | ID Number: ${val('sp_id_number')}
+Full Name: ${val('sp_full_names')}
+
+3. TRAINING & FIREARM HANDLING
+Test 117705 completed: ${yn(d.test_completed)}
+Practical training: ${yn(d.practical_training)}
+Training Centre: ${val('training_centre')}
+Has Certificate: ${yn(d.has_certificate)}
+Has Statement of Results: ${yn(d.has_results)}
+
+4. CRIMINAL BACKGROUND
+Convicted: ${yn(d.convicted)}
+Cases pending: ${yn(d.cases_pending)}
+Firearms lost/stolen: ${yn(d.firearm_lost)}
+Negligence case: ${yn(d.negligence)}
+Declared unfit: ${yn(d.unfit)}
+Firearm confiscated: ${yn(d.confiscated)}
+Protection order (5yr): ${yn(d.protection_order)}
+Licence denied (5yr): ${yn(d.denied_licence)}
+Mental health/substance (5yr): ${yn(d.mental_health)} | Saw doctor: ${yn(d.saw_doctor)}
+Divorce with violence (2yr): ${yn(d.divorce)}
+Forced job loss (2yr): ${yn(d.job_loss)}
+
+5. SAFE & SECURITY
+Has safe: ${yn(d.has_safe)} | Type: ${yn(d.safe_type)}
+Description: ${val('safe_desc')}
+Exceeds 350kg: ${yn(d.safe_350kg)} | Mounted: ${yn(d.safe_mounted)}
+Rawlbolts – Floor: ${val('rawlbolts_floor')} | Wall: ${val('rawlbolts_wall')} | Size: ${yn(d.rawlbolt_size)}
+Security: ${(d.security||[]).join(', ')||'None'} | Provider: ${val('security_provider')}
+
+6. MEMBERSHIPS
+Member: ${yn(d.is_member)}
+Association 1: ${val('assoc1_name')} (joined ${val('assoc1_date')})
+Association 2: ${val('assoc2_name')} (joined ${val('assoc2_date')})
+Dedicated status: ${yn(d.dedicated_status)} | Type: ${yn(d.dedicated_type)}
+
+7. LICENCES TO RENEW
+Holder type: ${yn(d.holder_type)}
+${[1,2,3,4,5].map(i=>`Firearm ${i}: ${d[`lic${i}_type`]||''} | ${d[`lic${i}_calibre`]||''} | ${d[`lic${i}_make`]||''} | ${d[`lic${i}_serial`]||''} | Section ${d[`lic${i}_section`]||''}`).filter(l=>l.replace(/[\s|]/g,'')).join('\n')}
+
+10. SAPS COMPETENCIES
+Type: ${(d.comp_type||[]).join(', ')||'N/A'}
+Categories: ${(d.comp_cat||[]).join(', ')||'N/A'}
+Date Issued: ${val('comp_date_issued')} | Renewed: ${val('comp_renewed')}
+
+11. FIREARMS IN POSSESSION
+Self Defence Firearm: ${yn(d.has_self_defence)}
+Total Hunting/Sport: ${val('total_hunting_firearms')}
+
+${'='.repeat(60)}
+Submitted via Legally Armed Digital Intake Form`);
+
+  window.location.href = `mailto:sandra@legally-armed.co.za?subject=${subject}&body=${body}`;
+  document.getElementById('success_msg').style.display = 'block';
+}
+
+// ── SA ID Number Auto-formatter (shared) ──────────────────────────────────
+function applyIDFormat(digits) {
+  // Insert dashes: XXXXXX-XXXX-XX-X  (positions after 6, 10, 12 digits)
+  let f = digits;
+  if (digits.length > 6)  f = digits.slice(0,6)  + '-' + digits.slice(6);
+  if (digits.length > 10) f = f.slice(0,11) + '-' + f.slice(11);
+  if (digits.length > 12) f = f.slice(0,14) + '-' + f.slice(14);
+  return f;
+}
+
+function calcAge(digits) {
+  if (digits.length < 6) return '';
+  const yy = parseInt(digits.slice(0,2), 10);
+  const mm = parseInt(digits.slice(2,4), 10);
+  const dd = parseInt(digits.slice(4,6), 10);
+  const now = new Date();
+  const currentYY = now.getFullYear() % 100;
+  const fullYear = yy > currentYY ? 1900 + yy : 2000 + yy;
+  if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return '';
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const dob   = new Date(fullYear, mm - 1, dd);
+  const bday  = new Date(today.getFullYear(), mm - 1, dd);
+  let age = today.getFullYear() - dob.getFullYear();
+  if (bday > today) age--;
+  return (age >= 0 && age <= 120) ? age : '';
+}
+
+// Generic formatter — works for any ID input given its radio-group name
+function formatSAIDField(input, radioGroupName) {
+  const idType = document.querySelector(`input[name="${radioGroupName}"]:checked`);
+  if (idType && idType.value === 'Passport') {
+    input.maxLength = 20;
+    return;
+  }
+  // Never format if the field is empty - preserve the placeholder
+  let digits = input.value.replace(/[^0-9]/g, '').slice(0, 13);
+  if (digits.length === 0) {
+    input.value = '';
+    if (input.id === 'id_number') document.getElementById('age').value = '';
+    return;
+  }
+  input.value = applyIDFormat(digits);
+  input.maxLength = 16;
+  // Only auto-fill age for the main applicant field
+  if (input.id === 'id_number') {
+    document.getElementById('age').value = calcAge(digits);
+  }
+}
+
+// Legacy alias so existing oninput="formatSAIDField(this,'id_type')" still works
+function formatSAID(input) { formatSAIDField(input, 'id_type'); }
+
+// Switch mode when ID type radio changes
+function switchIDType(inputId, radioGroupName) {
+  const input = document.getElementById(inputId);
+  const selected = document.querySelector(`input[name="${radioGroupName}"]:checked`);
+  if (!input || !selected) return;
+  if (selected.value === 'Passport') {
+    input.maxLength = 20;
+    input.placeholder = 'Enter passport number';
+    // Strip dashes from any existing value but keep digits
+    input.value = input.value.replace(/-/g, '');
+    if (inputId === 'id_number') {
+      document.getElementById('age').value = '';
+      document.getElementById('age').placeholder = 'Enter age manually';
+    }
+  } else {
+    input.maxLength = 16;
+    input.placeholder = '000000-0000-00-0';
+    if (inputId === 'id_number') {
+      document.getElementById('age').placeholder = 'Auto-calculated from ID';
+    }
+    // Only re-format if the field already has a value - never auto-fill
+    if (input.value.trim() !== '') {
+      formatSAIDField(input, radioGroupName);
+    }
+  }
+}
+
+// Bind main applicant ID type radios
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[name="id_type"]').forEach(r => {
+    r.addEventListener('change', () => switchIDType('id_number', 'id_type'));
+  });
+});
+
+
+// ── Notification of Change of Address offer ────────────────────────────────
+function showNotifOffer() {
+  const notified = document.querySelector('input[name="change_notified"]:checked');
+  const offerEl  = document.getElementById('cond_notif_offer');
+  if (!offerEl) return;
+  // Show offer only when answer is NO
+  if (notified && notified.value === 'NO') {
+    offerEl.style.display = 'block';
+  } else {
+    offerEl.style.display = 'none';
+    // Clear the on-behalf answer if hidden
+    document.querySelectorAll('input[name="notif_on_behalf"]').forEach(r => {
+      r.checked = false;
+      r.closest('label').classList.remove('yes-sel','no-sel');
+    });
+  }
+}
+
+
+// ── Other field reveal ─────────────────────────────────────────────────────
+function toggleOtherField(fieldId, radio) {
+  const el = document.getElementById(fieldId);
+  if (!el) return;
+  if (radio.value === 'Other') {
+    el.classList.add('show');
+    el.style.display = 'block';
+  } else {
+    el.classList.remove('show');
+    el.style.display = 'none';
+    // Clear the specify input when hidden
+    const inp = el.querySelector('input[type="text"]');
+    if (inp) inp.value = '';
+  }
+}
+
+
+// ── Email Validation ───────────────────────────────────────────────────────
+function validateEmail(input, onBlur) {
+  const val = input.value.trim();
+  const errorEl = document.getElementById('email_error');
+  // RFC-compliant basic regex
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+
+  if (val === '') {
+    // Empty — reset to neutral unless blurring (then show required)
+    input.classList.remove('error', 'valid');
+    if (errorEl) {
+      if (onBlur) {
+        errorEl.textContent = '⚠ Email address is required';
+        errorEl.style.display = 'block';
+        input.classList.add('error');
+      } else {
+        errorEl.style.display = 'none';
+      }
+    }
+  } else if (valid) {
+    input.classList.remove('error');
+    input.classList.add('valid');
+    if (errorEl) errorEl.style.display = 'none';
+  } else {
+    input.classList.remove('valid');
+    if (onBlur || val.length > 5) {
+      input.classList.add('error');
+      if (errorEl) {
+        errorEl.textContent = '⚠ Please enter a valid email address (e.g. name@domain.com)';
+        errorEl.style.display = 'block';
+      }
+    }
+  }
+  return valid;
+}
+
+
+// ── Hide & clear a conditional panel ──────────────────────────────────────
+function hideCond(condId) {
+  const el = document.getElementById(condId);
+  if (!el) return;
+  el.classList.remove('show');
+  // Clear all inputs, selects and textareas inside
+  el.querySelectorAll('input[type="text"], input[type="date"], input[type="number"], textarea').forEach(i => i.value = '');
+  el.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.checked = false;
+    const lbl = r.closest('label');
+    if (lbl) lbl.classList.remove('yes-sel','no-sel');
+  });
+  el.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    const lbl = cb.closest('label');
+    if (lbl) lbl.classList.remove('selected');
+  });
+  // Recursively hide any nested conditionals
+  el.querySelectorAll('.conditional').forEach(nested => {
+    nested.classList.remove('show');
+  });
+}
+
+
+// ── Criminal Background Validation ────────────────────────────────────────
+const CRIMINAL_QUESTIONS = [
+  { name: 'convicted',        label: '1. Ever been convicted of an offence?' },
+  { name: 'cases_pending',    label: '2. Any cases pending against you?' },
+  { name: 'firearm_lost',     label: '3. Any firearms ever lost or stolen?' },
+  { name: 'negligence',       label: '4. Negligence case opened for lost/stolen firearm?' },
+  { name: 'unfit',            label: '5. Ever declared unfit to possess a firearm?' },
+  { name: 'confiscated',      label: '6. Firearm ever confiscated?' },
+  { name: 'protection_order', label: '7. Served with a protection order in the past 5 years?' },
+  { name: 'denied_licence',   label: '8. Denied a licence/permit/authorisation in the past 5 years?' },
+  { name: 'mental_health',    label: '9. Mental health or substance issues in the past 5 years?' },
+  { name: 'saw_doctor',       label: '10. Saw a doctor for any of the above?' },
+  { name: 'divorce',          label: '11. Divorce/separation with allegations of violence in past 2 years?' },
+  { name: 'job_loss',         label: '12. Experienced forced job loss in the past 2 years?' },
+];
+
+function validateCriminalSection() {
+  const unanswered = CRIMINAL_QUESTIONS.filter(q =>
+    !document.querySelector(`input[name="${q.name}"]:checked`)
+  );
+
+  if (unanswered.length === 0) return true;
+
+  // Populate modal list
+  const list = document.getElementById('criminal_unanswered_list');
+  list.innerHTML = unanswered.map(q => `<li>${q.label}</li>`).join('');
+
+  // Show modal
+  const modal = document.getElementById('criminal_modal');
+  modal.style.display = 'flex';
+
+  // Scroll to first unanswered question
+  const firstUnanswered = document.querySelector(`input[name="${unanswered[0].name}"]`);
+  if (firstUnanswered) {
+    firstUnanswered.closest('.yn-row').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Highlight unanswered rows
+    unanswered.forEach(q => {
+      const row = document.querySelector(`input[name="${q.name}"]`)?.closest('.yn-row');
+      if (row) {
+        row.style.background = '#FFF5F5';
+        row.style.borderRadius = '6px';
+        row.style.transition = 'background 0.3s';
+      }
+    });
+  }
+  return false;
+}
+
+function closeCriminalModal() {
+  document.getElementById('criminal_modal').style.display = 'none';
+}
+
+// Clear row highlight when a criminal question is answered
+document.addEventListener('DOMContentLoaded', function() {
+  CRIMINAL_QUESTIONS.forEach(q => {
+    document.querySelectorAll(`input[name="${q.name}"]`).forEach(radio => {
+      radio.addEventListener('change', () => {
+        const row = radio.closest('.yn-row');
+        if (row) row.style.background = '';
+      });
+    });
+  });
+});
+
+// Close modal on backdrop click
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('criminal_modal');
+  if (modal) modal.addEventListener('click', function(e) {
+    if (e.target === this) closeCriminalModal();
+  });
+});
+
+
+// ── Combined: save PDF + send EmailJS ─────────────────────────────────────
+function submitForm() {
+  const btn = document.getElementById('submit_btn');
+  if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+  // Step 1: save PDF for client
+  downloadPDF();
+  // Step 2: send styled HTML email to Sandra
+  setTimeout(() => { sendToSandra(); }, 800);
+}
+
+async function sendToSandra() {
+  const d   = collectData();
+  const yn  = v  => v  || 'Not answered';
+  const val = id => d[id] || '—';
+
+  const GREY  = '#4A4A4A';
+  const SILV  = '#9E9E9E';
+  const LIGHT = '#F5F5F5';
+  const RED   = '#B04040';
+  const GREEN = '#2D7A3A';
+
+  function secHead(num, title) {
+    return `<tr><td colspan="4" style="background:${GREY};color:#fff;padding:7px 12px;font-size:11px;
+            font-weight:bold;letter-spacing:0.06em;text-transform:uppercase;">${num}. ${title}</td></tr>`;
+  }
+
+  function row(label, value, label2, value2) {
+    const c2 = label2
+      ? `<td style="color:#666;padding:4px 10px;width:22%;border-bottom:1px solid #eee;font-size:11px;">${label2}</td>
+         <td style="padding:4px 10px;border-bottom:1px solid #eee;font-size:11px;font-weight:500;">${value2||'—'}</td>`
+      : `<td colspan="2" style="border-bottom:1px solid #eee;"></td>`;
+    return `<tr>
+      <td style="color:#666;padding:4px 10px;width:22%;border-bottom:1px solid #eee;font-size:11px;">${label}</td>
+      <td style="padding:4px 10px;border-bottom:1px solid #eee;font-size:11px;font-weight:500;">${value||'—'}</td>
+      ${c2}
+    </tr>`;
+  }
+
+  function ynBadge(v) {
+    if (!v || v === 'Not answered') return `<span style="color:#999;font-size:10px;">—</span>`;
+    const yes = v === 'YES';
+    return `<span style="background:${yes?'#F0FBF2':'#FBF0F0'};color:${yes?GREEN:RED};
+            padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700;
+            border:1px solid ${yes?GREEN:RED};">${v}</span>`;
+  }
+
+  function ynRow(label, name) {
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    const v = checked ? checked.value : '';
+    return `<tr style="border-bottom:1px solid #eee;">
+      <td colspan="3" style="padding:4px 10px;font-size:11px;color:#333;">${label}</td>
+      <td style="padding:4px 10px;text-align:right;">${ynBadge(v)}</td>
+    </tr>`;
+  }
+
+  function cbVal(names) {
+    return names.flatMap(n => [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(c=>c.value)).join(', ') || '—';
+  }
+
+  let licRows = '';
+  for (let i=1;i<=5;i++) {
+    const t=d[`lic${i}_type`]||'', ca=d[`lic${i}_calibre`]||'',
+          m=d[`lic${i}_make`]||'', s=d[`lic${i}_serial`]||'',
+          sec=d[`lic${i}_under_section`]||d[`lic${i}_section`]||'';
+    if (t||ca||m||s||sec) {
+      licRows += `<tr style="background:${i%2===0?LIGHT:'#fff'}">
+        <td style="padding:4px 8px;border:1px solid #ddd;font-size:10px;">${t}</td>
+        <td style="padding:4px 8px;border:1px solid #ddd;font-size:10px;">${ca}</td>
+        <td style="padding:4px 8px;border:1px solid #ddd;font-size:10px;">${m}</td>
+        <td style="padding:4px 8px;border:1px solid #ddd;font-size:10px;">${s}</td>
+        <td style="padding:4px 8px;border:1px solid #ddd;font-size:10px;">${sec}</td>
+      </tr>`;
+    }
+  }
+  if (!licRows) licRows = `<tr><td colspan="5" style="padding:6px;color:#999;font-size:10px;text-align:center;">No firearms listed</td></tr>`;
+
+  const maritalDisplay   = d.marital   === 'Other' ? `Other – ${val('marital_other_specify')}`   : yn(d.marital);
+  const residenceDisplay = d.residence === 'Other' ? `Other – ${val('residence_other_specify')}` : yn(d.residence);
+
+  const htmlContent = `
+<div style="font-family:Arial,sans-serif;max-width:700px;margin:0 auto;color:#222;">
+  <div style="background:${GREY};padding:18px 24px;border-radius:6px 6px 0 0;text-align:center;">
+    <div style="font-size:16px;font-weight:bold;color:#fff;letter-spacing:0.05em;text-transform:uppercase;">CHECKLIST – COMPETENCY &amp; LICENCE RENEWAL</div>
+    <div style="font-size:10px;color:${SILV};letter-spacing:0.1em;margin-top:4px;text-transform:uppercase;">Legally Armed &nbsp;·&nbsp; Confidential</div>
+    <div style="font-size:11px;color:#ccc;margin-top:6px;">Date: ${val('app_date')}</div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,#888,#C0C0C0,#888);margin-bottom:16px;"></div>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:4px;">
+    ${secHead(1,'Particulars of Applicant')}
+    ${row('I.D. Type',yn(d.id_type),'I.D. Number',val('id_number'))}
+    ${row('Citizenship',yn(d.citizenship),'Age',val('age'))}
+    ${row('Full Names & Surname',val('full_names'))}
+    ${row('Nickname',val('nickname'),'Marital Status',maritalDisplay)}
+    ${row('Residential Address',val('res_address1')+' '+val('res_address2'),'Postal Code',val('res_code'))}
+    ${row('Moved Address?',ynBadge(d.moved_address),'Change Notified?',ynBadge(d.change_notified))}
+    ${d.notif_on_behalf ? row('Add Notification to Quotation?',ynBadge(d.notif_on_behalf)) : ''}
+    ${row('Postal Address',val('post_address1')+' '+val('post_address2'),'Postal Code',val('post_code'))}
+    ${row('Type of Residence',residenceDisplay,'Self-Employed',ynBadge(d.self_emp))}
+    ${row('Profession / Occupation',val('profession'),'Employer / Company',val('employer'))}
+    ${row('Business Address',val('biz_address1')+' '+val('biz_address2'),'Code',val('biz_code'))}
+    ${row('Home Tel',val('tel_home'),'Work Tel',val('tel_work'))}
+    ${row('Cellphone',val('cellphone'),'Fax',val('fax'))}
+    ${row('Email',val('email'))}
+
+    ${secHead(2,'Particulars of Spouse / Partner')}
+    ${row('I.D. Type',yn(d.sp_id_type),'I.D. Number',val('sp_id_number'))}
+    ${row('Full Name & Surname',val('sp_full_names'))}
+
+    ${secHead(3,'Training & Firearm Handling Info')}
+    ${ynRow('Completed prescribed test (Demonstrate Knowledge) 117705?','test_completed')}
+    ${ynRow('Completed practical training on a shooting range?','practical_training')}
+    ${row('Categories completed',cbVal(['cat_handgun','cat_shotgun','cat_mlr','cat_slr']))}
+    ${row('Name of Training Centre',val('training_centre'))}
+    ${ynRow('Has Training Certificate?','has_certificate')}
+    ${ynRow('Has Statement of Results (SASSETA/PFTC)?','has_results')}
+
+    ${secHead(4,'Criminal Background')}
+    ${ynRow('1. Ever convicted of an offence inside or outside RSA?','convicted')}
+    ${d.convicted==='YES' ? row('Conv 1 – Station',val('conv1_station'),'Case No.',val('conv1_case'))+row('Charge',val('conv1_charge'),'Outcome',val('conv1_outcome'))+row('Conv 2 – Station',val('conv2_station'),'Case No.',val('conv2_case'))+row('Charge',val('conv2_charge'),'Outcome',val('conv2_outcome')) : ''}
+    ${ynRow('2. Any cases pending against you?','cases_pending')}
+    ${d.cases_pending==='YES' ? row('Station',val('pend_station'),'Case No.',val('pend_case'))+row('Charge',val('pend_charge')) : ''}
+    ${ynRow('3. Any firearms ever lost or stolen?','firearm_lost')}
+    ${d.firearm_lost==='YES' ? row('Station',val('lost_station'),'Case No.',val('lost_case'))+row('Circumstances',val('lost_circumstances'))+row('Firearm Details',val('lost_firearm_details')) : ''}
+    ${ynRow('4. Negligence case opened for lost/stolen firearm?','negligence')}
+    ${d.negligence==='YES' ? row('Station',val('neg_station'),'Case No.',val('neg_case'))+row('Charge',val('neg_charge'),'Outcome',val('neg_outcome')) : ''}
+    ${ynRow('5. Ever declared unfit to possess a firearm?','unfit')}
+    ${d.unfit==='YES' ? row('Station',val('unfit_station'),'Case No.',val('unfit_case'))+row('Charge',val('unfit_charge'))+row('From Date',val('unfit_from_date'),'Period',val('unfit_period')) : ''}
+    ${ynRow('6. Firearm ever confiscated?','confiscated')}
+    ${d.confiscated==='YES' ? row('Station',val('conf_station'),'Case No.',val('conf_case'))+row('Charge/Circumstances',val('conf_charge'))+row('Firearm Details',val('conf_firearm_details')) : ''}
+    ${ynRow('7. Protection order or police visit re. violence (past 5 yrs)?','protection_order')}
+    ${d.protection_order==='YES'?row('Comments',val('prot_comments')):''}
+    ${ynRow('8. Denied a licence/permit/authorisation (past 5 yrs)?','denied_licence')}
+    ${d.denied_licence==='YES'?row('Comments',val('denied_comments')):''}
+    ${ynRow('9. Mental health or substance issues (past 5 yrs)?','mental_health')}
+    ${d.mental_health==='YES'?row('Comments',val('mental_comments')):''}
+    ${ynRow('10. Saw a doctor/medical professional for above?','saw_doctor')}
+    ${d.saw_doctor==='YES'?row('Comments',val('doctor_comments')):''}
+    ${ynRow('11. Divorce/separation with allegations of violence (past 2 yrs)?','divorce')}
+    ${d.divorce==='YES'?row('Comments',val('divorce_comments')):''}
+    ${ynRow('12. Forced job loss (past 2 yrs)?','job_loss')}
+    ${d.job_loss==='YES'?row('Comments',val('jobloss_comments')):''}
+
+    ${secHead(5,'Safe & Security Information')}
+    ${ynRow('Do you have a prescribed safe?','has_safe')}
+    ${d.has_safe==='YES' ? row('Type of Safe',yn(d.safe_type),'Description',val('safe_desc'))+row('Exceeds 350kg?',ynBadge(d.safe_350kg),'Mounted?',ynBadge(d.safe_mounted))+(d.safe_mounted==='YES' ? row('Rawlbolts Floor',val('rawlbolts_floor'),'Rawlbolts Wall',val('rawlbolts_wall'))+row('Rawlbolt Size',yn(d.rawlbolt_size)) : '') : ''}
+    ${row('Other Security',cbVal(['security'])||'None','Service Provider',val('security_provider'))}
+
+    ${secHead(6,'Membership(s)')}
+    ${ynRow('Member of Accredited Hunting/Sport Shooting Association?','is_member')}
+    ${d.is_member==='YES' ? row('Association 1',val('assoc1_name'),'Date Joined',val('assoc1_date'))+row('Association 2',val('assoc2_name'),'Date Joined',val('assoc2_date')) : ''}
+    ${ynRow('Do you have Dedicated Status?','dedicated_status')}
+    ${d.dedicated_status==='YES' ? row('Dedicated Status Type',yn(d.dedicated_type)) : ''}
+
+    ${secHead(7,'Licence(s) to be Renewed')}
+    ${row('Licence Holder Type',yn(d.holder_type))}
+  </table>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+    <thead>
+      <tr style="background:${GREY};color:#fff;">
+        <th style="padding:6px 8px;font-size:10px;letter-spacing:0.05em;text-align:left;">TYPE</th>
+        <th style="padding:6px 8px;font-size:10px;letter-spacing:0.05em;text-align:left;">CALIBRE</th>
+        <th style="padding:6px 8px;font-size:10px;letter-spacing:0.05em;text-align:left;">MAKE</th>
+        <th style="padding:6px 8px;font-size:10px;letter-spacing:0.05em;text-align:left;">SERIAL NUMBER</th>
+        <th style="padding:6px 8px;font-size:10px;letter-spacing:0.05em;text-align:left;">UNDER SECTION</th>
+      </tr>
+    </thead>
+    <tbody>${licRows}</tbody>
+  </table>
+  ${val('late_reason')!=='—' ? '<p style="font-size:10px;color:#666;"><strong>Reason for late submission:</strong> '+val('late_reason')+'</p>' : ''}
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:4px;">
+    ${secHead(10,'SAPS Competencies Issued')}
+    ${row('Certificate Type(s)',cbVal(['comp_type']))}
+    ${row('Categories',cbVal(['comp_cat']))}
+    ${row('Date of Issue',val('comp_date_issued'),'Already Renewed? If yes, date',val('comp_renewed'))}
+
+    ${secHead(11,'Number of Firearms in Possession (Licensed)')}
+    ${ynRow('Self Defence Firearm?','has_self_defence')}
+    ${row('Total Hunting/Sport Shooting Firearms',val('total_hunting_firearms'))}
+  </table>
+
+  <div style="margin-top:20px;padding-top:10px;border-top:1px solid #ccc;text-align:right;font-size:9px;color:#999;">
+    Legally Armed – Competency &amp; Licence Renewal Checklist &nbsp;·&nbsp; Confidential
+  </div>
+</div>`;
+
+  try {
+    await emailjs.send('service_cvsi3vf', 'template_n435mxp', {
+      client_name:  val('full_names'),
+      html_content: htmlContent,
+    });
+    console.log('EmailJS sent successfully');
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    alert('Could not send email automatically. Please email the saved PDF manually to sandra@legally-armed.co.za');
+  } finally {
+    const btn = document.getElementById('submit_btn');
+    if (btn) { btn.textContent = 'Save PDF & Send Email'; btn.disabled = false; }
+    document.getElementById('success_msg').style.display = 'block';
+  }
+}
+
+</script>
+
+<!-- ── Criminal Background Validation Modal ───────────────────────────────── -->
+<div id="criminal_modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;max-width:480px;width:90%;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;">
+    <div style="background:#4A4A4A;padding:16px 24px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:22px;">⚠️</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff;letter-spacing:0.03em;">Please Answer All Questions</span>
+    </div>
+    <div style="padding:24px;">
+      <p style="font-size:14px;color:#4A4A4A;line-height:1.7;margin-bottom:12px;">The following criminal background questions have not been answered yet:</p>
+      <ul id="criminal_unanswered_list" style="margin:0 0 20px 16px;padding:0;font-size:13px;color:#B04040;line-height:2;"></ul>
+      <p style="font-size:12.5px;color:#8A7F70;">All questions must be answered YES or NO before you can continue.</p>
+    </div>
+    <div style="padding:0 24px 24px;text-align:right;">
+      <button onclick="closeCriminalModal()" style="padding:10px 28px;background:#4A4A4A;color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;">Go Back & Complete</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
