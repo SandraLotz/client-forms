@@ -1378,10 +1378,9 @@
 
 </div><!-- /form-wrap -->
 
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
 // ── EmailJS Init ──────────────────────────────────────────────────────────
-window.addEventListener('load', function() { emailjs.init('GsyKbJ191BAEB4Q3vcL-q'); });
+var s=document.createElement('script');s.src='https://cdn.emailjs.com/dist/email.min.js';s.onload=function(){emailjs.init('GsyKbJ191BAEB4Q3vcL-q');};document.head.appendChild(s);
 
 // ── State ──────────────────────────────────────────────────────────────────
 let currentSection = 0;
