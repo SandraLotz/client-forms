@@ -1380,7 +1380,7 @@
 
 <script>
 // ── EmailJS Init ──────────────────────────────────────────────────────────
-emailjs.init('jxL58mH52uPADj9xv');
+emailjs.init('GsyKbJ191BAEB4Q3vcL-q');
 
 // ── State ──────────────────────────────────────────────────────────────────
 let currentSection = 0;
@@ -1450,10 +1450,12 @@ function showCond(condId, radioName, showOnValue) {
 }
 
 // Special case: moved address toggle
-document.querySelectorAll('input[name="moved_address"]').forEach(r => {
-  r.addEventListener('change', () => {
-    showCond('cond_moved','moved_address','YES');
-    ynSelect(r,'moved_address');
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[name="moved_address"]').forEach(r => {
+    r.addEventListener('change', () => {
+      showCond('cond_moved','moved_address','YES');
+      ynSelect(r,'moved_address');
+    });
   });
 });
 
@@ -1765,7 +1767,13 @@ function formatSAIDField(input, radioGroupName) {
     input.maxLength = 20;
     return;
   }
+  // Never format if the field is empty - preserve the placeholder
   let digits = input.value.replace(/[^0-9]/g, '').slice(0, 13);
+  if (digits.length === 0) {
+    input.value = '';
+    if (input.id === 'id_number') document.getElementById('age').value = '';
+    return;
+  }
   input.value = applyIDFormat(digits);
   input.maxLength = 16;
   // Only auto-fill age for the main applicant field
@@ -1785,6 +1793,7 @@ function switchIDType(inputId, radioGroupName) {
   if (selected.value === 'Passport') {
     input.maxLength = 20;
     input.placeholder = 'Enter passport number';
+    // Strip dashes from any existing value but keep digits
     input.value = input.value.replace(/-/g, '');
     if (inputId === 'id_number') {
       document.getElementById('age').value = '';
@@ -1792,17 +1801,22 @@ function switchIDType(inputId, radioGroupName) {
     }
   } else {
     input.maxLength = 16;
-    input.placeholder = '730512-0100-08-2';
+    input.placeholder = '000000-0000-00-0';
     if (inputId === 'id_number') {
       document.getElementById('age').placeholder = 'Auto-calculated from ID';
     }
-    formatSAIDField(input, radioGroupName);
+    // Only re-format if the field already has a value - never auto-fill
+    if (input.value.trim() !== '') {
+      formatSAIDField(input, radioGroupName);
+    }
   }
 }
 
 // Bind main applicant ID type radios
-document.querySelectorAll('input[name="id_type"]').forEach(r => {
-  r.addEventListener('change', () => switchIDType('id_number', 'id_type'));
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[name="id_type"]').forEach(r => {
+    r.addEventListener('change', () => switchIDType('id_number', 'id_type'));
+  });
 });
 
 
@@ -1956,18 +1970,23 @@ function closeCriminalModal() {
 }
 
 // Clear row highlight when a criminal question is answered
-CRIMINAL_QUESTIONS.forEach(q => {
-  document.querySelectorAll(`input[name="${q.name}"]`).forEach(radio => {
-    radio.addEventListener('change', () => {
-      const row = radio.closest('.yn-row');
-      if (row) row.style.background = '';
+document.addEventListener('DOMContentLoaded', function() {
+  CRIMINAL_QUESTIONS.forEach(q => {
+    document.querySelectorAll(`input[name="${q.name}"]`).forEach(radio => {
+      radio.addEventListener('change', () => {
+        const row = radio.closest('.yn-row');
+        if (row) row.style.background = '';
+      });
     });
   });
 });
 
 // Close modal on backdrop click
-document.getElementById('criminal_modal').addEventListener('click', function(e) {
-  if (e.target === this) closeCriminalModal();
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('criminal_modal');
+  if (modal) modal.addEventListener('click', function(e) {
+    if (e.target === this) closeCriminalModal();
+  });
 });
 
 
