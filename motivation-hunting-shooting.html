@@ -1260,7 +1260,8 @@ async function submitForm() {
     const htmlContent = buildEmailHtml();
     try {
       await emailjs.send('service_cvsi3vf', 'template_n435mxp', {
-        client_name:  'Hunting & Sport Shooting Motivation',
+        client_name:  val('applicant_name') || 'Client',
+        subject:      'Hunting & Sport Shooting Motivation Intake - ' + (val('applicant_name') || 'Client'),
         html_content: htmlContent,
       });
     } catch(err) {
