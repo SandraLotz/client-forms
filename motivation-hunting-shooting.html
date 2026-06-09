@@ -453,6 +453,8 @@
 
         <div id="fa_purpose_note" style="display:none;margin-top:12px;padding:12px 16px;border-radius:6px;background:#F0F4F8;border-left:3px solid var(--navy);font-size:13px;color:var(--grey700);line-height:1.6;"></div>
 
+        <div id="fa_purpose_error" style="display:none;margin-top:12px;padding:12px 16px;border-radius:6px;background:#FDF0F0;border-left:3px solid var(--red);font-size:13px;color:var(--red);font-weight:600;line-height:1.6;"></div>
+
         <!-- SAME CALIBRE QUESTION -->
         <div class="field-grid cols-2" style="margin-top:20px;">
           <hr class="field-divider">
@@ -918,7 +920,39 @@ function goToStep(n) {
   if (n === 4) buildReview();
 }
 
-function nextStep(n) { goToStep(n+1); }
+function nextStep(n) {
+  if (n === 1) {
+    const qty = parseInt(sel('fa_quantity')) || 0;
+    const errorEl = document.getElementById('fa_purpose_error');
+    if (qty === 0) {
+      if (errorEl) { errorEl.style.display = 'none'; }
+      goToStep(n+1);
+      return;
+    }
+    for (let i = 1; i <= qty; i++) {
+      const p = sel('fa_purpose_' + i);
+      if (!p) {
+        if (errorEl) {
+          errorEl.innerHTML = '⚠️ &nbsp;Please select a <strong>Purpose</strong> (Hunting or Sport Shooting) for <strong>Firearm ' + i + '</strong> before continuing.';
+          errorEl.style.display = 'block';
+          errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        const el = document.querySelector('[name="fa_purpose_' + i + '"]');
+        if (el) {
+          el.style.border = '2px solid var(--red)';
+          setTimeout(() => el.focus(), 400);
+          el.addEventListener('change', function() {
+            el.style.border = '';
+            if (errorEl) errorEl.style.display = 'none';
+          }, { once: true });
+        }
+        return;
+      }
+    }
+    if (errorEl) errorEl.style.display = 'none';
+  }
+  goToStep(n+1);
+}
 function prevStep(n) { goToStep(n-1); }
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
@@ -1181,45 +1215,28 @@ function buildEmailHtml() {
     ${row('Same Calibre Owned', rad('fa_same_calibre'))}
     ${rad('fa_same_calibre') === 'Yes' ? row('Differences Explained', val('fa_diff_explanation')) : ''}
 
-    ${secHead('1 – Hunting: Shotgun')}
-    ${row('Action', chk('sg_action'))}
+    ${secHead('Hunting')}
     ${row('Years Hunting', val('sg_years_hunting'))}
     ${row('Introduced By', val('sg_introduced_by'))}
     ${row('Frequency', val('sg_frequency'))}
-    ${row('Provinces', (()=>{ const p=chk('sg_province'); const o=val('sg_province_other'); return p + (o && o!=='—' ? ', Other: '+o : ''); })())}
+    ${row('Where Normally Hunt', (()=>{ const p=chk('sg_province'); const o=val('sg_province_other'); return p + (o && o!=='—' ? ', Other: '+o : ''); })())}
+    ${row('Preferred Species', val('sg_preferred_species'))}
     ${row('Last Trip Date', val('sg_last_trip_date'))}
     ${row('Last Trip Province', val('sg_last_trip_province'))}
     ${row('Farm', val('sg_farm'))}
     ${row('District', val('sg_district'))}
     ${row('Species (last trip)', val('sg_last_species'))}
-    ${row('Owns Farm', rad('sg_own_farm'))}
-    ${row('Farm Size', val('sg_farm_size'))}
-    ${row('Livestock / Crops', val('sg_livestock'))}
-    ${row('Preferred Species', val('sg_preferred_species'))}
+    ${row('Owns Farm / Smallholding', rad('sg_own_farm'))}
+    ${rad('sg_own_farm') === 'Yes' ? row('Farm Size', val('sg_farm_size')) : ''}
+    ${rad('sg_own_farm') === 'Yes' ? row('Livestock / Crops', val('sg_livestock')) : ''}
     ${row('Companion 1', val('sg_comp1_name') + ' &nbsp; ' + val('sg_comp1_tel'))}
     ${row('Companion 2', val('sg_comp2_name') + ' &nbsp; ' + val('sg_comp2_tel'))}
+    ${row('Hunted Rowland Ward', rad('ri_rowland_ward'))}
+    ${rad('ri_rowland_ward') === 'Yes' ? row('RW When', val('ri_rw_when')) : ''}
+    ${rad('ri_rowland_ward') === 'Yes' ? row('RW Where', val('ri_rw_where')) : ''}
+    ${rad('ri_rowland_ward') === 'Yes' ? row('RW Species', val('ri_rw_species')) : ''}
+    ${rad('ri_rowland_ward') === 'Yes' ? row('RW Registered', rad('ri_rw_registered')) : ''}
 
-    ${secHead('2 – Hunting: Rifle')}
-    ${row('Action', chk('ri_action'))}
-    ${row('Years Hunting', val('ri_years_hunting'))}
-    ${row('Introduced By', val('ri_introduced_by'))}
-    ${row('Frequency', val('ri_frequency'))}
-    ${row('Provinces', chk('ri_province'))}
-    ${row('Last Trip Date', val('ri_last_trip_date'))}
-    ${row('Farm', val('ri_farm'))}
-    ${row('District', val('ri_district'))}
-    ${row('Species (last trip)', val('ri_last_species'))}
-    ${row('Owns Farm', rad('ri_own_farm'))}
-    ${row('Farm Size', val('ri_farm_size'))}
-    ${row('Livestock / Crops', val('ri_livestock'))}
-    ${row('Preferred Species', val('ri_preferred_species'))}
-    ${row('Companion 1', val('ri_comp1_name') + ' &nbsp; ' + val('ri_comp1_tel'))}
-    ${row('Companion 2', val('ri_comp2_name') + ' &nbsp; ' + val('ri_comp2_tel'))}
-    ${row('Rowland Ward', rad('ri_rowland_ward'))}
-    ${row('RW When', val('ri_rw_when'))}
-    ${row('RW Where', val('ri_rw_where'))}
-    ${row('RW Species', val('ri_rw_species'))}
-    ${row('RW Registered', rad('ri_rw_registered'))}
     ${secHead('General')}
     ${row('Reloads Ammunition', rad('reload_ammo'))}
     ${row('Species Intent', val('general_species_intent'))}
@@ -1260,7 +1277,7 @@ async function submitForm() {
     const htmlContent = buildEmailHtml();
     try {
       await emailjs.send('service_cvsi3vf', 'template_n435mxp', {
-        client_name:  val('applicant_name') || 'Client',
+        client_name:  'Motivation Intake - ' + (val('applicant_name') || 'Client'),
         subject:      'Hunting & Sport Shooting Motivation Intake - ' + (val('applicant_name') || 'Client'),
         html_content: htmlContent,
       });
