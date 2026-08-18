@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motivation – Self-Defence – Legally Armed</title>
+<script src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #4A4A4A;
+    --gold:   #7A7A7A;
+    --gold-lt:#A8A8A8;
+    --cream:  #F8F4EE;
+    --white:  #FFFFFF;
+    --grey50: #F5F3EF;
+    --grey100:#EAE6DF;
+    --grey300:#C8C0B0;
+    --grey500:#8A7F70;
+    --grey700:#4A4438;
+    --red:    #B04040;
+    --field-bg:#FDFCFA;
+    --field-border:#D4CCC0;
+    --field-focus:#7A7A7A;
+    --radius: 6px;
+    --shadow: 0 2px 12px rgba(26,26,46,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "DM Sans", sans-serif; background: var(--cream); color: var(--grey700); min-height: 100vh; padding-bottom: 60px; }
+
+  /* HEADER */
+  .site-header { background: var(--navy); padding: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+  .header-inner { max-width: 860px; margin: 0 auto; padding: 18px 32px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .header-inner h1 { font-family: "Cormorant Garamond", serif; font-size: 26px; font-weight: 600; color: var(--white); letter-spacing: 0.02em; margin-top: 14px; }
+  .header-inner p { font-size: 11px; color: var(--gold-lt); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+  .gold-bar { height: 2px; background: linear-gradient(90deg,#888,#C0C0C0,#888); }
+
+  /* PROGRESS */
+  .progress-wrap { background: var(--navy); padding: 0 32px 16px; }
+  .progress-inner { max-width: 860px; margin: 0 auto; }
+  .steps { display: flex; gap: 0; }
+  .step-item { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; cursor: pointer; }
+  .step-item::before { content: ""; position: absolute; top: 13px; left: 50%; width: 100%; height: 1px; background: rgba(255,255,255,0.15); z-index: 0; }
+  .step-item:last-child::before { display: none; }
+  .step-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); position: relative; z-index: 1; transition: all 0.3s; }
+  .step-item.active .step-dot { border-color: var(--gold); background: var(--gold); color: var(--white); }
+  .step-item.done   .step-dot { border-color: var(--gold-lt); background: transparent; color: var(--gold-lt); }
+  .step-label { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 6px; text-align: center; }
+  .step-item.active .step-label { color: var(--gold-lt); }
+
+  /* FORM */
+  .form-wrap { max-width: 860px; margin: 32px auto; padding: 0 24px; }
+  .form-section { display: none; animation: fadeUp 0.4s ease; }
+  .form-section.active { display: block; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+  /* CARD */
+  .section-card { background: var(--white); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
+  .card-header { background: var(--navy); padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
+  .card-num { font-family: "Cormorant Garamond", serif; font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1; min-width: 32px; }
+  .card-title { font-family: "Cormorant Garamond", serif; font-size: 16px; font-weight: 600; color: var(--white); letter-spacing: 0.04em; text-transform: uppercase; }
+  .card-body { padding: 24px; }
+
+  /* FIELDS */
+  .field-grid { display: grid; gap: 18px; }
+  .field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group.full { grid-column: 1 / -1; }
+  label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey500); }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea { width: 100%; background: var(--field-bg); border: 1px solid var(--field-border); border-radius: var(--radius); padding: 10px 14px; font-family: "DM Sans", sans-serif; font-size: 14px; color: var(--grey700); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+  input:focus, select:focus, textarea:focus { border-color: var(--field-focus); box-shadow: 0 0 0 3px rgba(122,122,122,0.12); }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* RADIO */
+  .radio-group, .check-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .radio-group label, .check-group label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--grey700); cursor: pointer; background: var(--grey50); border: 1px solid var(--grey100); border-radius: var(--radius); padding: 7px 14px; transition: all 0.18s; user-select: none; }
+  .radio-group input[type="radio"], .check-group input[type="checkbox"] { accent-color: var(--navy); }
+  .radio-group label:hover, .check-group label:hover { border-color: var(--grey300); background: var(--grey100); }
+
+  .field-divider { grid-column: 1/-1; border: none; border-top: 1px solid var(--grey100); margin: 4px 0; }
+  .sub-heading { grid-column: 1/-1; font-family: "Cormorant Garamond", serif; font-size: 15px; font-weight: 600; color: var(--navy); letter-spacing: 0.04em; text-transform: uppercase; border-left: 3px solid var(--gold); padding-left: 10px; margin: 6px 0 2px; }
+
+  /* INCIDENT CARDS */
+  .incident-card { background: var(--grey50); border: 1px solid var(--grey100); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+  .incident-num { font-family: "Cormorant Garamond", serif; font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+
+  /* NAV */
+  .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .btn { padding: 13px 32px; border: none; border-radius: var(--radius); font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary { background: var(--grey100); color: var(--grey700); border: 1px solid var(--grey300); }
+  .btn-secondary:hover { background: var(--grey300); }
+  .btn-primary { background: var(--navy); color: var(--white); box-shadow: 0 2px 10px rgba(74,74,74,0.25); }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* SUCCESS */
+  #success_msg { display: none; background: var(--white); border-radius: 10px; box-shadow: var(--shadow); padding: 48px 32px; text-align: center; margin-top: 32px; }
+  #success_msg h2 { font-family: "Cormorant Garamond", serif; font-size: 28px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  #success_msg p { font-size: 14px; color: var(--grey500); line-height: 1.7; }
+  #review_panel { font-size: 13px; line-height: 1.7; color: var(--grey700); }
+
+  @media (max-width: 600px) {
+    .field-grid.cols-2, .field-grid.cols-3 { grid-template-columns: 1fr; }
+    .header-inner { padding: 14px 16px; }
+    .card-body { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="gold-bar"></div>
+  <div class="header-inner">
+    <img src="data:image/jpeg;base64,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" alt="Legally Armed" style="height:80px;width:auto;display:block;margin:0 auto;">
+    <h1>Motivation for Self Defence</h1>
+    <p>Client Checklist &nbsp;&middot;&nbsp; Legally Armed &nbsp;&middot;&nbsp; Confidential</p>
+  </div>
+  <div class="gold-bar"></div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="steps">
+      <div class="step-item active" id="step_1" onclick="goStep(1)">
+        <div class="step-dot">1</div>
+        <div class="step-label">Applicant</div>
+      </div>
+      <div class="step-item" id="step_2" onclick="goStep(2)">
+        <div class="step-dot">2</div>
+        <div class="step-label">Residence</div>
+      </div>
+      <div class="step-item" id="step_3" onclick="goStep(3)">
+        <div class="step-dot">3</div>
+        <div class="step-label">Crime</div>
+      </div>
+      <div class="step-item" id="step_4" onclick="goStep(4)">
+        <div class="step-dot">4</div>
+        <div class="step-label">Employment</div>
+      </div>
+      <div class="step-item" id="step_5" onclick="goStep(5)">
+        <div class="step-dot">5</div>
+        <div class="step-label">Review</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-wrap">
+
+<!-- ══ SECTION 1 – APPLICANT ════════════════════════════════════════════════ -->
+<div class="form-section active" id="section_1">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <div class="card-title">Applicant Details</div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid cols-2">
+
+        <div class="field-group">
+          <label>Date</label>
+          <input type="date" name="applicant_date">
+        </div>
+
+        <div class="field-group full">
+          <label>Name &amp; Surname</label>
+          <input type="text" name="applicant_name" placeholder="Full name and surname">
+        </div>
+
+        <hr class="field-divider">
+        <div class="sub-heading">General</div>
+
+        <div class="field-group">
+          <label>Children?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gen_children" value="Yes" onchange="toggleChildren(this)"> Yes</label>
+            <label><input type="radio" name="gen_children" value="No"  onchange="toggleChildren(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group" id="children_ages_wrap" style="display:none;">
+          <label>Ages of Children</label>
+          <input type="text" name="gen_children_ages" placeholder="e.g. 8, 12, 16">
+        </div>
+
+        <div class="field-group full">
+          <label>Marital Status</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gen_marital" value="Single"> Single</label>
+            <label><input type="radio" name="gen_marital" value="Married"> Married</label>
+            <label><input type="radio" name="gen_marital" value="Divorced"> Divorced</label>
+            <label><input type="radio" name="gen_marital" value="Widow"> Widow</label>
+            <label><input type="radio" name="gen_marital" value="Widower"> Widower</label>
+            <label><input type="radio" name="gen_marital" value="Engaged"> Engaged</label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>If Married / Divorced &ndash; For How Long</label>
+          <input type="text" name="gen_married_duration" placeholder="e.g. 12 years">
+        </div>
+
+        <div class="field-group full">
+          <label>Who is Currently Living with You at This Address?</label>
+          <input type="text" name="gen_who_living" placeholder="e.g. Spouse, 2 children (ages 8 &amp; 12), domestic worker">
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <div></div>
+    <button class="btn btn-primary" onclick="nextStep(1)">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ SECTION 2 – RESIDENCE ══════════════════════════════════════════════════ -->
+<div class="form-section" id="section_2">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <div class="card-title">Residence</div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid cols-2">
+
+        <div class="field-group">
+          <label>Period at Current Premises</label>
+          <input type="text" name="res_period" placeholder="e.g. 5 years">
+        </div>
+        <div class="field-group">
+          <label>Period at Previous Address (if less than 2 years)</label>
+          <input type="text" name="res_previous" placeholder="Previous address">
+        </div>
+
+        <div class="field-group full">
+          <label>What Type of Area Do You Live In?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_area_type" value="Residential" onchange="toggleAreaOther(this)"> Residential</label>
+            <label><input type="radio" name="res_area_type" value="Smallholding" onchange="toggleAreaOther(this)"> Smallholding</label>
+            <label><input type="radio" name="res_area_type" value="Farm" onchange="toggleAreaOther(this)"> Farm</label>
+            <label><input type="radio" name="res_area_type" value="Other" onchange="toggleAreaOther(this)"> Other</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_area_other_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="res_area_other" placeholder="Please describe your area type">
+        </div>
+        <div class="field-group full" id="res_area_size_wrap" style="display:none;">
+          <label>Size of Property</label>
+          <input type="text" name="res_area_size" placeholder="e.g. 10 acres, 1 200 hectares">
+        </div>
+
+        <div class="field-group full">
+          <label>Is Your Residence Situated Inside a:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_situated" value="Complex" onchange="toggleSituatedSecurity(this)"> Complex</label>
+            <label><input type="radio" name="res_situated" value="Security Estate" onchange="toggleSituatedSecurity(this)"> Security Estate</label>
+            <label><input type="radio" name="res_situated" value="Street Enclosure" onchange="toggleSituatedSecurity(this)"> Street Enclosure</label>
+            <label><input type="radio" name="res_situated" value="Open Neighbourhood" onchange="toggleSituatedSecurity(this)"> Open Neighbourhood</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_situated_security_wrap" style="display:none;">
+          <label>Please specify the security offered by the Complex / Security Estate / Street Enclosure to its residents</label>
+          <textarea name="res_situated_security" rows="3" placeholder="e.g. Brick walling with electric fencing, 24/7 access control with armed guards, Armed Response Services"></textarea>
+        </div>
+
+        <hr class="field-divider">
+        <div class="sub-heading">Security Features at Property / House</div>
+
+        <div class="field-group">
+          <label>Type of Fencing Around Your Property</label>
+          <input type="text" name="res_fencing_type" placeholder="e.g. Brick walling, Pre-cast walling 3 sides &amp; Palisade fencing in front">
+        </div>
+        <div class="field-group full">
+          <label>Do You Have Any Electric Fencing, Spikes or Razor Wire Installed on the Boundaries?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_boundary_security" value="Yes" onchange="toggleBoundarySecurity(this)"> Yes</label>
+            <label><input type="radio" name="res_boundary_security" value="No" onchange="toggleBoundarySecurity(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_boundary_security_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="res_boundary_security_detail" placeholder="e.g. Electric fencing on all sides, Spikes on front wall">
+        </div>
+        <div class="field-group">
+          <label>Intercom System?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_intercom" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_intercom" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>CCTV Cameras?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_cctv" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_cctv" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Alarm System?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_alarm" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_alarm" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Outside Beams?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_beams" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_beams" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Armed Response?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_armed_response" value="Yes" onchange="toggleArmedResponse(this)"> Yes</label>
+            <label><input type="radio" name="res_armed_response" value="No"  onchange="toggleArmedResponse(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group" id="armed_company_wrap" style="display:none;">
+          <label>Armed Response Company Name</label>
+          <input type="text" name="res_armed_company" placeholder="Company name">
+        </div>
+        <div class="field-group">
+          <label>Burglar Proofing?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_burglar_proof" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_burglar_proof" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Security Gates at Doors Leading Outside?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_gates" value="Yes"> Yes</label>
+            <label><input type="radio" name="res_gates" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group full">
+          <label>Do You Own Any Dogs?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_dogs_yn" value="Yes" onchange="toggleDogs(this)"> Yes</label>
+            <label><input type="radio" name="res_dogs_yn" value="No"  onchange="toggleDogs(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_dogs_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="res_dogs" placeholder="e.g. 2 x small dogs inside/outside">
+        </div>
+
+        <div class="field-group full">
+          <label>Do You Have Any Outdoor Lights Installed?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_lights_yn" value="Yes" onchange="toggleLights(this)"> Yes</label>
+            <label><input type="radio" name="res_lights_yn" value="No"  onchange="toggleLights(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_lights_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="res_sec_lights" placeholder="e.g. 2 x day/night sensor &amp; 4 x manual">
+        </div>
+        <div class="field-group full">
+          <label>Name &amp; Distance to Closest Police Station to Your Residence</label>
+          <input type="text" name="res_police_distance" placeholder="e.g. Kempton Park, 3 km">
+        </div>
+        <div class="field-group full">
+          <label>Is There Any Veld / Park in Close Vicinity of Your Property?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="res_velds" value="Yes" onchange="toggleVelds(this)"> Yes</label>
+            <label><input type="radio" name="res_velds" value="No"  onchange="toggleVelds(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="res_velds_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="res_velds_detail" placeholder="e.g. Public park across the road">
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <button class="btn btn-secondary" onclick="prevStep(2)">&larr; Back</button>
+    <button class="btn btn-primary" onclick="nextStep(2)">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ SECTION 3 – CRIME ══════════════════════════════════════════════════════ -->
+<div class="form-section" id="section_3">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <div class="card-title">Crime History</div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid" style="grid-template-columns:1fr;">
+
+        <div class="field-group full">
+          <label>Have You Previously Been Affected by Crime?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="cr_master_affected" value="Yes" onchange="toggleCrimeMaster(this)"> Yes</label>
+            <label><input type="radio" name="cr_master_affected" value="No"  onchange="toggleCrimeMaster(this)"> No</label>
+          </div>
+        </div>
+
+        <div id="cr_incidents_wrap" style="display:none;">
+
+        <div class="incident-card">
+          <div class="incident-num">Incident 1</div>
+          <div class="field-grid cols-2">
+            <div class="field-group"><label>Estimated Date of Incident</label><input type="text" name="cr1_date" placeholder="e.g. Jan 2025"></div>
+            <div class="field-group"><label>Estimated Time of Incident</label><input type="text" name="cr1_time" placeholder="e.g. approximately 22h30, during day time"></div>
+            <div class="field-group full"><label>Description of Crime</label><textarea name="cr1_description" rows="2" placeholder="Brief description of incident"></textarea></div>
+            <div class="field-group full">
+              <label>Was It Reported to the SAPS?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="cr1_reported" value="Yes" onchange="toggleSaps1(this)"> Yes</label>
+                <label><input type="radio" name="cr1_reported" value="No"  onchange="toggleSaps1(this)"> No</label>
+              </div>
+            </div>
+            <div id="cr1_saps_wrap" style="display:none;grid-column:1/-1;">
+              <div class="field-grid cols-2" style="margin-top:8px;">
+                <div class="field-group"><label>To Which Police Station?</label><input type="text" name="cr1_police_station" placeholder="Station name"></div>
+                <div class="field-group"><label>Case Number</label><input type="text" name="cr1_case_nr" placeholder="CAS nr"></div>
+                <div class="field-group full"><label>What Was the Outcome?</label><input type="text" name="cr1_outcome" placeholder="e.g. Arrested, no arrest"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="incident-card">
+          <div class="incident-num">Incident 2</div>
+          <div class="field-grid cols-2">
+            <div class="field-group"><label>Estimated Date of Incident</label><input type="text" name="cr2_date" placeholder="e.g. Jan 2025"></div>
+            <div class="field-group"><label>Estimated Time of Incident</label><input type="text" name="cr2_time" placeholder="e.g. approximately 22h30, during day time"></div>
+            <div class="field-group full"><label>Description of Crime</label><textarea name="cr2_description" rows="2" placeholder="Brief description of incident"></textarea></div>
+            <div class="field-group full">
+              <label>Was It Reported to the SAPS?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="cr2_reported" value="Yes" onchange="toggleSaps2(this)"> Yes</label>
+                <label><input type="radio" name="cr2_reported" value="No"  onchange="toggleSaps2(this)"> No</label>
+              </div>
+            </div>
+            <div id="cr2_saps_wrap" style="display:none;grid-column:1/-1;">
+              <div class="field-grid cols-2" style="margin-top:8px;">
+                <div class="field-group"><label>To Which Police Station?</label><input type="text" name="cr2_police_station" placeholder="Station name"></div>
+                <div class="field-group"><label>Case Number</label><input type="text" name="cr2_case_nr" placeholder="CAS nr"></div>
+                <div class="field-group full"><label>What Was the Outcome?</label><input type="text" name="cr2_outcome" placeholder="e.g. Arrested, no arrest"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="incident-card">
+          <div class="incident-num">Incident 3</div>
+          <div class="field-grid cols-2">
+            <div class="field-group"><label>Estimated Date of Incident</label><input type="text" name="cr3_date" placeholder="e.g. Jan 2025"></div>
+            <div class="field-group"><label>Estimated Time of Incident</label><input type="text" name="cr3_time" placeholder="e.g. approximately 22h30, during day time"></div>
+            <div class="field-group full"><label>Description of Crime</label><textarea name="cr3_description" rows="2" placeholder="Brief description of incident"></textarea></div>
+            <div class="field-group full">
+              <label>Was It Reported to the SAPS?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="cr3_reported" value="Yes" onchange="toggleSaps3(this)"> Yes</label>
+                <label><input type="radio" name="cr3_reported" value="No"  onchange="toggleSaps3(this)"> No</label>
+              </div>
+            </div>
+            <div id="cr3_saps_wrap" style="display:none;grid-column:1/-1;">
+              <div class="field-grid cols-2" style="margin-top:8px;">
+                <div class="field-group"><label>To Which Police Station?</label><input type="text" name="cr3_police_station" placeholder="Station name"></div>
+                <div class="field-group"><label>Case Number</label><input type="text" name="cr3_case_nr" placeholder="CAS nr"></div>
+                <div class="field-group full"><label>What Was the Outcome?</label><input type="text" name="cr3_outcome" placeholder="e.g. Arrested, no arrest"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+
+        <div class="sub-heading" style="margin-top:8px;">Neighbourhood Crime</div>
+        <div class="field-group">
+          <label>Criminal Activity in Neighbourhood?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="cr_neighbourhood" value="Yes"> Yes</label>
+            <label><input type="radio" name="cr_neighbourhood" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Types of Crimes Committed in Neighbourhood</label>
+          <textarea name="cr_neighbourhood_types" rows="3" placeholder="e.g. House robberies, car hijackings, theft&hellip;"></textarea>
+        </div>
+        <div class="field-group full">
+          <label>Any Other Useful Information as to Why Your Property/Neighbourhood is Prone to Crime?</label>
+          <textarea name="cr_neighbourhood_other" rows="3" placeholder="e.g. Close to high-crime zone, Abandoned buildings, Overgrown foliage, Unlit streets, Near major transit routes for easy escape"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <button class="btn btn-secondary" onclick="prevStep(3)">&larr; Back</button>
+    <button class="btn btn-primary" onclick="nextStep(3)">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ SECTION 4 – WORKING CONDITIONS ════════════════════════════════════════ -->
+<div class="form-section" id="section_4">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <div class="card-title">Employment</div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid cols-2">
+
+        <div class="field-group">
+          <label>Type of Work / Occupation</label>
+          <input type="text" name="wk_occupation" placeholder="e.g. Representative, Doctor, Manager">
+        </div>
+        <div class="field-group">
+          <label>Employment Date</label>
+          <input type="date" name="wk_employment_date">
+        </div>
+        <div class="field-group full">
+          <label>Standard Working Hours</label>
+          <input type="text" name="wk_hours" placeholder="e.g. Mon&ndash;Fri 08:00&ndash;17:00">
+        </div>
+        <div class="field-group">
+          <label>Do You Work Overtime?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="wk_overtime" value="Yes" onchange="toggleOvertime(this)"> Yes</label>
+            <label><input type="radio" name="wk_overtime" value="No"  onchange="toggleOvertime(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="wk_overtime_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="wk_overtime_detail" placeholder="e.g. Occasionally up to 22h00 at night, Regular after hour meetings/events">
+        </div>
+        <div class="field-group full">
+          <label>Area of Work / Travelling for Business Purposes</label>
+          <input type="text" name="wk_area" placeholder="e.g. Gauteng CBD, Industrial areas, Country wide">
+        </div>
+        <div class="field-group">
+          <label>Do You Handle Cash at Work?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="wk_cash" value="Yes"> Yes</label>
+            <label><input type="radio" name="wk_cash" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field-group full">
+          <label>Any Comments</label>
+          <textarea name="wk_comments" rows="2" placeholder="Any relevant comments regarding work conditions"></textarea>
+        </div>
+        <div class="field-group full">
+          <label>Spouse Working Hours / Shifts / After Hours</label>
+          <input type="text" name="wk_spouse_hours" placeholder="e.g. Night shift nursing, 19:00&ndash;07:00">
+        </div>
+
+        <hr class="field-divider">
+        <div class="sub-heading">Personal Travelling &amp; Vacation</div>
+        <div class="field-group full">
+          <label>Places You Travel to Nationally for Vacation or to Visit Family/Friends</label>
+          <textarea name="wk_vacation" rows="3" placeholder="e.g. Cape Town, Natal, Drakensberg, Hartbeespoort"></textarea>
+        </div>
+        <div class="field-group full">
+          <label>Do You Enjoy Activities Such as Camping or Hiking in Remote / Isolated Areas?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="wk_camping" value="Yes" onchange="toggleCamping(this)"> Yes</label>
+            <label><input type="radio" name="wk_camping" value="No"  onchange="toggleCamping(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="wk_camping_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <input type="text" name="wk_camping_detail" placeholder="e.g. Camping in the Drakensberg, hiking trails in the Cederberg">
+        </div>
+        <div class="field-group full">
+          <label>Please Provide Any Other Useful Information in Terms of Travelling</label>
+          <textarea name="wk_travel_other" rows="3" placeholder="e.g. Twice per week to take my child to gymnastics at night, attending gym weekly travelling through high-risk areas"></textarea>
+        </div>
+
+        <hr class="field-divider">
+        <div class="sub-heading">Disabilities &amp; Medical Disadvantages</div>
+        <div class="field-group full">
+          <label>Do You Suffer From Any Disability or Medical Disadvantage That May Prevent You From Physically Defending Yourself?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="dis_yn" value="Yes" onchange="toggleDisability(this)"> Yes</label>
+            <label><input type="radio" name="dis_yn" value="No"  onchange="toggleDisability(this)"> No</label>
+          </div>
+        </div>
+        <div class="field-group full" id="dis_wrap" style="display:none;">
+          <label>Please Specify</label>
+          <textarea name="dis_detail" rows="3" placeholder="e.g. Visual/hearing impairment, Heart bypass in 2010, Knee replacement in 2008, Mobility Aid user such as Wheelchair"></textarea>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <button class="btn btn-secondary" onclick="prevStep(4)">&larr; Back</button>
+    <button class="btn btn-primary" onclick="nextStep(4)">Review &amp; Submit &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ SECTION 5 – REVIEW & SUBMIT ═══════════════════════════════════════════ -->
+<div class="form-section" id="section_5">
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">5</div>
+      <div class="card-title">Review &amp; Submit</div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--grey500);margin-bottom:20px;line-height:1.6;">
+        Please review your answers below. When you are satisfied, click <strong>Save PDF &amp; Send</strong> to save a copy and submit your form to Legally Armed.
+      </p>
+      <div id="review_panel"></div>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <button class="btn btn-secondary" onclick="prevStep(5)">&larr; Back</button>
+    <button class="btn btn-primary" id="submit_btn" onclick="submitForm()">Save PDF &amp; Send</button>
+  </div>
+  <div id="success_msg">
+    <div style="margin-bottom:20px;">
+      <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="64" height="64" rx="6" fill="#22c55e" stroke="#166534" stroke-width="3"/>
+        <polyline points="18,38 30,52 54,24" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#4A4A4A;margin-top:12px;letter-spacing:0.02em;">Form Submitted!</div>
+    </div>
+    <h2>Thank You</h2>
+    <p>Your self-defence motivation intake has been submitted to Legally Armed.<br>
+    A copy has been saved for your records.<br><br>
+    <strong>sandra@legally-armed.co.za</strong> will be in contact with you shortly.</p>
+  </div>
+</div>
+
+</div><!-- /form-wrap -->
+
+<script>
+emailjs.init({publicKey: "dEd33tTPJt6Z0MwD0"});
+
+let currentStep = 1;
+const TOTAL = 5;
+
+function goStep(n) {
+  document.getElementById("section_" + currentStep).classList.remove("active");
+  document.getElementById("step_" + currentStep).classList.remove("active");
+  if (n > currentStep) document.getElementById("step_" + currentStep).classList.add("done");
+  currentStep = n;
+  document.getElementById("section_" + currentStep).classList.add("active");
+  for (let i = 1; i <= TOTAL; i++) {
+    const el = document.getElementById("step_" + i);
+    el.classList.remove("active", "done");
+    if (i < currentStep) el.classList.add("done");
+    if (i === currentStep) el.classList.add("active");
+  }
+  if (n === TOTAL) buildReview();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function nextStep(n) { goStep(n + 1); }
+function prevStep(n) { goStep(n - 1); }
+
+function toggleArmedResponse(r) { document.getElementById("armed_company_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleBoundarySecurity(r) { document.getElementById("res_boundary_security_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleDogs(r) { document.getElementById("res_dogs_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleLights(r) { document.getElementById("res_lights_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleVelds(r) { document.getElementById("res_velds_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleGuards(r) { document.getElementById("guards_type_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleChildren(r) { document.getElementById("children_ages_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleSituatedSecurity(r) {
+  var show = ["Complex", "Security Estate", "Street Enclosure"].indexOf(r.value) !== -1;
+  document.getElementById("res_situated_security_wrap").style.display = show ? "flex" : "none";
+}
+function toggleAreaOther(r) {
+  document.getElementById("res_area_other_wrap").style.display = r.value === "Other" ? "flex" : "none";
+  document.getElementById("res_area_size_wrap").style.display = (r.value === "Smallholding" || r.value === "Farm") ? "flex" : "none";
+}
+
+function toggleDisability(r) { document.getElementById("dis_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleCamping(r) { document.getElementById("wk_camping_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleOvertime(r) { document.getElementById("wk_overtime_wrap").style.display = r.value === "Yes" ? "flex" : "none"; }
+function toggleCrimeMaster(r) { document.getElementById("cr_incidents_wrap").style.display = r.value === "Yes" ? "block" : "none"; }
+function toggleSaps1(r) { document.getElementById("cr1_saps_wrap").style.display = r.value === "Yes" ? "block" : "none"; }
+function toggleSaps2(r) { document.getElementById("cr2_saps_wrap").style.display = r.value === "Yes" ? "block" : "none"; }
+function toggleSaps3(r) { document.getElementById("cr3_saps_wrap").style.display = r.value === "Yes" ? "block" : "none"; }
+function val(name) { const el = document.querySelector("[name=\"" + name + "\"]"); return el ? (el.value.trim() || "—") : "—"; }
+function rad(name) { const el = document.querySelector("[name=\"" + name + "\"]:checked"); return el ? el.value : "—"; }
+
+function buildReview() {
+  var html = "";
+
+  function sec(title) {
+    html += '<div style="font-weight:700;color:#4A4A4A;margin-top:18px;margin-bottom:4px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;border-bottom:2px solid #C8C0B0;padding-bottom:4px;">' + title + '</div>';
+  }
+  function row(label, v) {
+    if (!v || v === "—") return;
+    html += '<div style="display:flex;gap:10px;border-bottom:1px solid #EAE6DF;padding:5px 0;"><span style="min-width:240px;font-weight:600;color:#8A7F70;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;padding-top:2px;">' + label + '</span><span style="font-size:13px;color:#4A4438;">' + v + '</span></div>';
+  }
+
+  // ── APPLICANT ──
+  sec("Applicant");
+  row("Date", val("applicant_date"));
+  row("Name & Surname", val("applicant_name"));
+
+  // ── GENERAL ──
+  sec("General");
+  row("Children", rad("gen_children"));
+  if (rad("gen_children") === "Yes") row("Ages of Children", val("gen_children_ages"));
+  row("Marital Status", rad("gen_marital"));
+  row("If Married / Divorced – For How Long", val("gen_married_duration"));
+  row("Who is Currently Living at This Address", val("gen_who_living"));
+
+  // ── RESIDENCE ──
+  sec("Residence");
+  row("Period at Current Premises", val("res_period"));
+  row("Period at Previous Address (if less than 2 years)", val("res_previous"));
+  var areaType = rad("res_area_type");
+  row("Type of Area", areaType === "Other" ? "Other – " + val("res_area_other") : areaType);
+  if (areaType === "Smallholding" || areaType === "Farm") row("Size of Property", val("res_area_size"));
+  row("Residence Situated Inside", rad("res_situated"));
+  if (["Complex","Security Estate","Street Enclosure"].indexOf(rad("res_situated")) !== -1) row("Complex / Estate Security Details", val("res_situated_security"));
+  row("Type of Fencing Around Property", val("res_fencing_type"));
+  row("Electric Fencing / Spikes / Razor Wire on Boundaries", rad("res_boundary_security"));
+  if (rad("res_boundary_security") === "Yes") row("Please Specify – Boundary Security", val("res_boundary_security_detail"));
+  row("Intercom System", rad("res_intercom"));
+  row("CCTV Cameras", rad("res_cctv"));
+  row("Alarm System", rad("res_alarm"));
+  row("Outside Beams", rad("res_beams"));
+  row("Armed Response", rad("res_armed_response"));
+  if (rad("res_armed_response") === "Yes") row("Armed Response Company", val("res_armed_company"));
+  row("Burglar Proofing", rad("res_burglar_proof"));
+  row("Security Gates at Doors Leading Outside", rad("res_gates"));
+  row("Do You Own Any Dogs", rad("res_dogs_yn"));
+  if (rad("res_dogs_yn") === "Yes") row("Please Specify – Dogs", val("res_dogs"));
+  row("Do You Have Any Outdoor Lights Installed", rad("res_lights_yn"));
+  if (rad("res_lights_yn") === "Yes") row("Please Specify – Outdoor Lights", val("res_sec_lights"));
+  row("Name & Distance to Closest Police Station", val("res_police_distance"));
+  row("Is There Any Veld / Park in Close Vicinity", rad("res_velds"));
+  if (rad("res_velds") === "Yes") row("Please Specify – Veld / Park", val("res_velds_detail"));
+
+  // ── CRIME ──
+  sec("Crime History");
+  row("Have You Previously Been Affected by Crime", rad("cr_master_affected"));
+  if (rad("cr_master_affected") === "Yes") {
+    sec("Incident 1");
+    row("Estimated Date of Incident", val("cr1_date"));
+    row("Estimated Time of Incident", val("cr1_time"));
+    row("Description of Crime", val("cr1_description"));
+    row("Was It Reported to the SAPS", rad("cr1_reported"));
+    if (rad("cr1_reported") === "Yes") {
+      row("To Which Police Station", val("cr1_police_station"));
+      row("Case Number", val("cr1_case_nr"));
+      row("What Was the Outcome", val("cr1_outcome"));
+    }
+    sec("Incident 2");
+    row("Estimated Date of Incident", val("cr2_date"));
+    row("Estimated Time of Incident", val("cr2_time"));
+    row("Description of Crime", val("cr2_description"));
+    row("Was It Reported to the SAPS", rad("cr2_reported"));
+    if (rad("cr2_reported") === "Yes") {
+      row("To Which Police Station", val("cr2_police_station"));
+      row("Case Number", val("cr2_case_nr"));
+      row("What Was the Outcome", val("cr2_outcome"));
+    }
+    sec("Incident 3");
+    row("Estimated Date of Incident", val("cr3_date"));
+    row("Estimated Time of Incident", val("cr3_time"));
+    row("Description of Crime", val("cr3_description"));
+    row("Was It Reported to the SAPS", rad("cr3_reported"));
+    if (rad("cr3_reported") === "Yes") {
+      row("To Which Police Station", val("cr3_police_station"));
+      row("Case Number", val("cr3_case_nr"));
+      row("What Was the Outcome", val("cr3_outcome"));
+    }
+  }
+  sec("Neighbourhood Crime");
+  row("Criminal Activity in Neighbourhood", rad("cr_neighbourhood"));
+  row("Types of Crimes Committed in Neighbourhood", val("cr_neighbourhood_types"));
+  row("Other Useful Info Re: Crime Prone Area", val("cr_neighbourhood_other"));
+
+  // ── EMPLOYMENT ──
+  sec("Employment");
+  row("Occupation", val("wk_occupation"));
+  row("Employment Date", val("wk_employment_date"));
+  row("Standard Working Hours", val("wk_hours"));
+  row("Do You Work Overtime", rad("wk_overtime"));
+  if (rad("wk_overtime") === "Yes") row("Please Specify – Overtime", val("wk_overtime_detail"));
+  row("Area of Work / Travelling for Business Purposes", val("wk_area"));
+  row("Do You Handle Cash at Work", rad("wk_cash"));
+  row("Any Comments", val("wk_comments"));
+  row("Spouse Working Hours / Shifts / After Hours", val("wk_spouse_hours"));
+
+  sec("Personal Travelling & Vacation");
+  row("Places You Travel to Nationally", val("wk_vacation"));
+  row("Camping / Hiking in Remote / Isolated Areas", rad("wk_camping"));
+  if (rad("wk_camping") === "Yes") row("Please Specify – Camping / Hiking", val("wk_camping_detail"));
+  row("Other Useful Travelling Information", val("wk_travel_other"));
+
+  // ── DISABILITIES ──
+  sec("Disabilities & Medical Disadvantages");
+  row("Suffer From Any Disability or Medical Disadvantage", rad("dis_yn"));
+  if (rad("dis_yn") === "Yes") row("Please Specify – Disability / Medical", val("dis_detail"));
+
+  document.getElementById("review_panel").innerHTML = html;
+}
+
+function buildEmailHtml() {
+  var lines = [];
+  function s(title) { lines.push("<h3 style='background:#4A4A4A;color:#fff;padding:6px 10px;margin:16px 0 4px;font-size:12px;letter-spacing:0.08em;'>" + title.toUpperCase() + "</h3>"); }
+  function r(label, v) { if (v && v !== "\u2014") lines.push("<p style='margin:2px 0;font-size:12px;'><strong>" + label + ":</strong> " + v + "</p>"); }
+
+  s("Applicant");
+  r("Date", val("applicant_date")); r("Name & Surname", val("applicant_name"));
+
+  s("General");
+  r("Children", rad("gen_children"));
+  if (rad("gen_children") === "Yes") r("Ages of Children", val("gen_children_ages"));
+  r("Marital Status", rad("gen_marital"));
+  r("If Married/Divorced - For How Long", val("gen_married_duration"));
+  r("Who is Currently Living at This Address", val("gen_who_living"));
+
+  s("Residence");
+  r("Period at Current Premises", val("res_period"));
+  r("Period at Previous Address", val("res_previous"));
+  var at = rad("res_area_type");
+  r("Type of Area", at === "Other" ? "Other - " + val("res_area_other") : at);
+  if (at === "Smallholding" || at === "Farm") r("Size of Property", val("res_area_size"));
+  r("Residence Situated Inside", rad("res_situated"));
+  if (["Complex","Security Estate","Street Enclosure"].indexOf(rad("res_situated")) !== -1) r("Complex/Estate Security", val("res_situated_security"));
+  r("Type of Fencing Around Property", val("res_fencing_type"));
+  r("Electric Fencing/Spikes/Razor Wire on Boundaries", rad("res_boundary_security"));
+  if (rad("res_boundary_security") === "Yes") r("Boundary Security Detail", val("res_boundary_security_detail"));
+  r("Intercom System", rad("res_intercom")); r("CCTV Cameras", rad("res_cctv"));
+  r("Alarm System", rad("res_alarm")); r("Outside Beams", rad("res_beams"));
+  r("Armed Response", rad("res_armed_response"));
+  if (rad("res_armed_response") === "Yes") r("Armed Response Company", val("res_armed_company"));
+  r("Burglar Proofing", rad("res_burglar_proof"));
+  r("Security Gates at Doors Leading Outside", rad("res_gates"));
+  r("Do You Own Any Dogs", rad("res_dogs_yn"));
+  if (rad("res_dogs_yn") === "Yes") r("Dogs Detail", val("res_dogs"));
+  r("Outdoor Lights Installed", rad("res_lights_yn"));
+  if (rad("res_lights_yn") === "Yes") r("Outdoor Lights Detail", val("res_sec_lights"));
+  r("Name & Distance to Closest Police Station", val("res_police_distance"));
+  r("Veld/Park in Close Vicinity", rad("res_velds"));
+  if (rad("res_velds") === "Yes") r("Veld/Park Detail", val("res_velds_detail"));
+
+  s("Crime History");
+  r("Previously Affected by Crime", rad("cr_master_affected"));
+  if (rad("cr_master_affected") === "Yes") {
+    s("Incident 1");
+    r("Estimated Date", val("cr1_date")); r("Estimated Time", val("cr1_time"));
+    r("Description", val("cr1_description")); r("Reported to SAPS", rad("cr1_reported"));
+    if (rad("cr1_reported") === "Yes") { r("Police Station", val("cr1_police_station")); r("Case Number", val("cr1_case_nr")); r("Outcome", val("cr1_outcome")); }
+    s("Incident 2");
+    r("Estimated Date", val("cr2_date")); r("Estimated Time", val("cr2_time"));
+    r("Description", val("cr2_description")); r("Reported to SAPS", rad("cr2_reported"));
+    if (rad("cr2_reported") === "Yes") { r("Police Station", val("cr2_police_station")); r("Case Number", val("cr2_case_nr")); r("Outcome", val("cr2_outcome")); }
+    s("Incident 3");
+    r("Estimated Date", val("cr3_date")); r("Estimated Time", val("cr3_time"));
+    r("Description", val("cr3_description")); r("Reported to SAPS", rad("cr3_reported"));
+    if (rad("cr3_reported") === "Yes") { r("Police Station", val("cr3_police_station")); r("Case Number", val("cr3_case_nr")); r("Outcome", val("cr3_outcome")); }
+  }
+  s("Neighbourhood Crime");
+  r("Criminal Activity in Neighbourhood", rad("cr_neighbourhood"));
+  r("Types of Crimes", val("cr_neighbourhood_types"));
+  r("Other Useful Info", val("cr_neighbourhood_other"));
+
+  s("Employment");
+  r("Occupation", val("wk_occupation")); r("Employment Date", val("wk_employment_date"));
+  r("Standard Working Hours", val("wk_hours"));
+  r("Do You Work Overtime", rad("wk_overtime"));
+  if (rad("wk_overtime") === "Yes") r("Overtime Detail", val("wk_overtime_detail"));
+  r("Area of Work / Travelling for Business", val("wk_area"));
+  r("Handle Cash at Work", rad("wk_cash")); r("Any Comments", val("wk_comments"));
+  r("Spouse Working Hours/Shifts/After Hours", val("wk_spouse_hours"));
+
+  s("Personal Travelling & Vacation");
+  r("Places You Travel to Nationally", val("wk_vacation"));
+  r("Camping/Hiking in Remote Areas", rad("wk_camping"));
+  if (rad("wk_camping") === "Yes") r("Camping/Hiking Detail", val("wk_camping_detail"));
+  r("Other Useful Travelling Info", val("wk_travel_other"));
+
+  s("Disabilities & Medical Disadvantages");
+  r("Disability or Medical Disadvantage", rad("dis_yn"));
+  if (rad("dis_yn") === "Yes") r("Disability Detail", val("dis_detail"));
+
+  return "<div style='font-family:Arial,sans-serif;max-width:680px;margin:0 auto;'>"
+    + "<div style='background:#4A4A4A;padding:16px 20px;text-align:center;'>"
+    + "<div style='font-size:16px;font-weight:bold;color:#fff;letter-spacing:0.05em;'>MOTIVATION FOR SELF-DEFENCE</div>"
+    + "<div style='font-size:10px;color:#C0C0C0;margin-top:4px;letter-spacing:0.1em;'>LEGALLY ARMED &middot; CONFIDENTIAL</div></div>"
+    + "<div style='padding:16px;'>" + lines.join("") + "</div></div>";
+}
+
+
+function submitForm() {
+  var btn = document.getElementById("submit_btn");
+  btn.textContent = "Sending…";
+  btn.disabled = true;
+
+  // Safety timeout - never stay stuck longer than 15 seconds
+  var giveUp = setTimeout(function() {
+    btn.textContent = "Save PDF & Send";
+    btn.disabled = false;
+    alert("Request timed out. Please check your connection and try again, or contact sandra@legally-armed.co.za directly.");
+  }, 15000);
+
+  emailjs.send("service_cvsi3vf", "template_n435mxp", {
+    client_name: val("applicant_name") || "Self-Defence Motivation Intake",
+    subject: "Self-Defence Motivation Intake – " + (val("applicant_name") || "New Client"),
+    html_content: buildEmailHtml(),
+  }).then(function(response) {
+    clearTimeout(giveUp);
+    console.log("EmailJS success:", response.status, response.text);
+    document.getElementById("success_msg").style.display = "block";
+    document.querySelector("#section_5 .nav-bar").style.display = "none";
+    var card = document.querySelector("#section_5 .section-card");
+    if (card) card.style.display = "none";
+  }, function(err) {
+    clearTimeout(giveUp);
+    console.error("EmailJS error:", JSON.stringify(err));
+    var msg = err && err.text ? err.text : (err && err.status ? "Status " + err.status : JSON.stringify(err));
+    alert("Email could not be sent.
+
+Error: " + msg + "
+
+Please contact sandra@legally-armed.co.za directly.");
+    btn.textContent = "Save PDF & Send";
+    btn.disabled = false;
+  });
+}
+</script>
+</body>
+</html>
